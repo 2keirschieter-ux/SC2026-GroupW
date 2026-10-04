@@ -12,96 +12,86 @@ Sync Impact Report
 
 ## Core Principles
 
-### I. Intégrité des tirages
-Toute la logique de tirage des boosters, y compris les probabilités et la
-décrémentation du stock des cartes spéciales, DOIT s'exécuter côté serveur. Le
-client NE DOIT ni influencer ni prédire un tirage. Les tests automatisés DOIVENT
-vérifier que les règles de tirage et les limites de stock sont respectées.
+### I. Draw Integrity
+All booster-draw logic, including probabilities and decrementation of special-card
+stock, MUST run on the server. The client MUST NOT influence or predict a draw.
+Automated tests MUST verify draw rules and stock limits.
 
-### II. Cohérence des données
-Les données de population, de capitale et de drapeau DOIVENT provenir d'une
-source unique, fiable et documentée. Toute mise à jour DOIT recalculer la rareté
-de manière cohérente et DOIT préserver une interprétation stable des cartes déjà
-possédées par les joueurs et des nouvelles cartes. Les migrations de données
-DOIVENT être explicites et vérifiables.
+### II. Data Consistency
+Population, capital, and flag data MUST come from one reliable, documented source.
+Every update MUST recalculate rarity consistently and MUST preserve a stable
+interpretation for cards already owned by players and for new cards. Data
+migrations MUST be explicit and verifiable.
 
-### III. Simplicité avant tout
-L'implémentation DOIT privilégier la solution la plus simple qui satisfait les
-exigences de WorldCards. Toute complexité supplémentaire DOIT être justifiée par
-un besoin concret, documenté et vérifiable. Les abstractions, extensions et
-optimisations prématurées NE DOIVENT PAS être introduites.
+### III. Simplicity First
+The implementation MUST favor the simplest solution that satisfies WorldCards'
+requirements. Additional complexity MUST be justified by a concrete, documented,
+verifiable need. Premature abstractions, extensions, and optimizations MUST NOT
+be introduced.
 
-### IV. Tests de la logique critique
-Le calcul de la rareté et le tirage des boosters DOIVENT être couverts par des
-tests automatisés couvrant les cas normaux, les limites et les stocks épuisés.
-L'interface visuelle PEUT avoir une couverture moindre lorsque la logique métier
-est testée indépendamment.
+### IV. Critical-Logic Testing
+Rarity calculation and booster draws MUST be covered by automated tests for
+normal cases, boundaries, and exhausted stock. The visual interface MAY have
+lower coverage when business logic is tested independently.
 
-### V. Sécurité de base
-Les mots de passe DOIVENT être hachés avec un mécanisme adapté et NE DOIVENT
-JAMAIS être stockés ou exposés en clair. Les données sensibles NE DOIVENT PAS
-être envoyées au client. Toute entrée utilisateur DOIT être validée côté serveur
-avant traitement ou persistance, et les erreurs de validation DOIVENT être
-retournées explicitement.
+### V. Basic Security
+Passwords MUST be hashed with an appropriate mechanism and MUST NEVER be stored
+or exposed in plain text. Sensitive data MUST NOT be sent to the client. All
+user input MUST be validated on the server before processing or persistence, and
+validation errors MUST be returned explicitly.
 
-### VI. Traçabilité de la démarche
-Chaque fonctionnalité significative DOIT être reliée à une spécification et aux
-prompts utilisés pour sa génération. Les décisions importantes et les écarts
-entre la spécification et l'implémentation DOIVENT être documentés afin de
-permettre l'évaluation de la démarche SDD et du vibe coding.
+### VI. Process Traceability
+Every significant feature MUST be traceable to a specification and the prompts
+used to generate it. Important decisions and deviations between specification
+and implementation MUST be documented so that the SDD and vibe-coding process
+can be evaluated.
 
-### VII. Respect des licences
-Les sources de données sur les pays et les images de drapeaux DOIVENT être
-utilisables légalement pour le projet. La licence ou les conditions
-d'utilisation de chaque source DOIVENT être identifiées avant son intégration,
-et les attributions requises DOIVENT être conservées dans la documentation du
-projet.
+### VII. License Compliance
+Country-data sources and flag images MUST be legally usable for the project. The
+license or terms of use for each source MUST be identified before integration,
+and required attributions MUST be retained in project documentation.
 
-## Contraintes du projet
+## Project Constraints
 
-WorldCards est un projet étudiant de jeu de cartes à échanger fondé sur les
-pays du monde. Les cartes de base représentent un pays, sa capitale ou son
-drapeau. Les cartes spéciales représentent un ancien drapeau, une ancienne
-capitale ou un ancien nom de pays, et leur stock est limité. La rareté est
-déterminée par la population du pays : moins un pays a d'habitants, plus ses
-cartes sont rares.
+WorldCards is a student trading card game project based on the countries of the
+world. Base cards represent a country, its capital, or its flag. Special cards
+represent a former flag, former capital, or former country name, and have limited
+stock. Rarity is determined by country population: the fewer inhabitants a
+country has, the rarer its cards are.
 
-Les choix techniques DOIVENT rester compatibles avec le temps et les moyens
-d'un projet étudiant. Les données externes, leurs versions et leurs conditions
-d'utilisation DOIVENT être identifiables. Aucune donnée secrète ou identifiant
-privé NE DOIT être intégré au dépôt.
+Technical choices MUST remain compatible with the time and resources of a
+student project. External data, its versions, and its terms of use MUST be
+identifiable. No secret data or private identifier MUST be committed to the
+repository.
 
-## Processus de développement
+## Development Process
 
-Une nouvelle fonctionnalité DOIT commencer par une spécification et être
-décomposée en tâches vérifiables. Les changements de logique critique DOIVENT
-inclure ou mettre à jour les tests automatisés correspondants. Avant
-intégration, les tests pertinents DOIVENT réussir et la conformité aux principes
-de cette constitution DOIT être vérifiée.
+Each new feature MUST begin with a specification and be broken into verifiable
+tasks. Changes to critical logic MUST include or update the corresponding
+automated tests. Before integration, relevant tests MUST pass and compliance
+with this constitution MUST be checked.
 
-Les implémentations DOIVENT rester traçables jusqu'à leur spécification et à
-leurs prompts de génération. Toute déviation nécessaire DOIT être signalée dans
-la documentation de la fonctionnalité avec sa justification.
+Implementations MUST remain traceable to their specification and generation
+prompts. Any necessary deviation MUST be reported in the feature documentation
+with its justification.
 
 ## Gouvernance
 
-Cette constitution prévaut sur les pratiques contradictoires du projet. Toute
-modification DOIT être proposée dans une mise à jour versionnée de ce fichier,
-décrire son impact dans le rapport de synchronisation temporaire et vérifier
-qu'elle ne rend pas les fonctionnalités existantes non conformes sans migration
-documentée.
+This constitution takes precedence over contradictory project practices. Every
+change MUST be proposed in a versioned update to this file, describe its impact
+in the temporary sync report, and verify that it does not make existing
+features non-compliant without a documented migration.
 
-Le versionnage suit le format sémantique MAJEUR.MINEUR.PATCH :
+Versioning follows the semantic MAJOR.MINOR.PATCH format:
 
-- MAJEUR : suppression ou redéfinition incompatible d'un principe ou d'une
-  obligation existante ;
-- MINEUR : ajout d'un principe, d'une section ou d'une obligation substantielle ;
-- PATCH : clarification, correction rédactionnelle ou précision non sémantique.
+- MAJOR: removal or incompatible redefinition of an existing principle or
+  obligation;
+- MINOR: addition of a principle, section, or substantive obligation;
+- PATCH: clarification, editorial correction, or non-semantic refinement.
 
-Chaque revue de fonctionnalité significative DOIT contrôler les principes
-concernés, la couverture des tests critiques, la validation des entrées, la
-traçabilité SDD et les licences des nouvelles sources. Une violation DOIT être
-corrigée ou explicitement acceptée avec une justification documentée avant
-intégration.
+Each significant feature review MUST check the relevant principles, critical-test
+coverage, input validation, SDD traceability, and licenses for new sources. A
+violation MUST be corrected or explicitly accepted with documented
+justification before integration.
 
-**Version**: 1.0.0 | **Ratified**: TODO(RATIFICATION_DATE): date d'adoption initiale inconnue | **Last Amended**: 2026-10-04
+**Version**: 1.0.0 | **Ratified**: TODO(RATIFICATION_DATE): original adoption date unknown | **Last Amended**: 2026-10-04

@@ -31,4 +31,4 @@
 
 ## Notes
 
-- La spécification est prête pour la clarification optionnelle ou la planification.
+- The specification is ready for optional clarification or planning.

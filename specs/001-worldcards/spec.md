@@ -6,290 +6,293 @@
 
 **Status**: Draft
 
-**Input**: User description: "Créer WorldCards, un site de trading card game sur les pays du monde."
+**Input**: User description: "Create WorldCards, a trading card game website about the countries of the world."
+
+## Clarifications
+
+### Session 2026-10-04
+
+- Q: How should rarity levels be determined from population and used in boosters? → A: Configurable population thresholds and rarity probabilities, with documented initial values.
+- Q: How many cards should a booster contain in version 1? → A: 5 cards per booster, with the same bundle size for every opening.
+- Q: When a special card has multiple copies in stock, may the same player own multiple distinct copies? → A: Yes, if stock allows it; each physical copy may be assigned only once.
+- Q: When a population update changes a country's rarity level, should already-owned cards change too? → A: No, rarity is fixed at assignment; new draws use current data.
 
 ## User Scenarios & Testing *(mandatory)*
 
-### User Story 1 - Créer une collection personnelle (Priority: P1)
+### User Story 1 - Create a personal collection (Priority: P1)
 
-En tant que joueur, je crée un compte et me connecte afin de disposer d'une
-collection personnelle de cartes.
+As a player, I create an account and sign in so that I have my own card
+collection.
 
-**Why this priority**: L'identité du joueur et sa collection sont nécessaires
-pour conserver les cartes obtenues et suivre la progression.
+**Why this priority**: A player's identity and collection are required to retain
+obtained cards and track progress.
 
-**Independent Test**: Un utilisateur peut créer un compte, se connecter,
-consulter une collection vide, puis retrouver cette collection après une nouvelle
-connexion.
+**Independent Test**: A user can create an account, sign in, view an empty
+collection, and find that collection again after signing in later.
 
 **Acceptance Scenarios**:
 
-1. **Given** un visiteur sans compte, **When** il fournit des informations
-   d'inscription valides, **Then** un compte est créé et aucune donnée sensible
-   n'est affichée publiquement.
-2. **Given** un compte existant, **When** le joueur fournit des identifiants
-   valides, **Then** il accède uniquement à sa propre collection.
-3. **Given** des informations d'inscription invalides ou déjà utilisées,
-   **When** le visiteur tente de créer un compte, **Then** l'inscription est
-   refusée avec un message compréhensible.
+1. **Given** a visitor without an account, **When** they provide valid
+   registration information, **Then** an account is created and no sensitive
+   data is publicly displayed.
+2. **Given** an existing account, **When** the player provides valid credentials,
+   **Then** they can access only their own collection.
+3. **Given** invalid or already-used registration information, **When** the
+   visitor attempts to register, **Then** registration is rejected with an
+   understandable message.
 
 ---
 
-### User Story 2 - Ouvrir un booster (Priority: P1)
+### User Story 2 - Open a booster (Priority: P1)
 
-En tant que joueur connecté, j'ouvre un booster et reçois un lot de cartes
-tirées aléatoirement selon les règles de rareté.
+As a signed-in player, I open a booster and receive a bundle of cards drawn
+randomly according to the rarity rules.
 
-**Why this priority**: Le tirage de boosters constitue l'activité principale et
-la source de progression de la collection.
+**Why this priority**: Booster draws are the main activity and the primary source
+of collection progress.
 
-**Independent Test**: Un joueur connecté peut ouvrir un booster et voir le lot
-obtenu, avec pour chaque carte son type, sa rareté et ses informations
-principales.
+**Independent Test**: A signed-in player can open a booster and see the cards
+received, including each card's type, rarity, and key information.
 
 **Acceptance Scenarios**:
 
-1. **Given** un joueur connecté et un catalogue disponible, **When** il ouvre un
-   booster, **Then** il reçoit un lot de cartes et celui-ci est ajouté à sa
+1. **Given** a signed-in player and an available catalog, **When** they open a
+   booster, **Then** they receive a bundle of cards and it is added to their
    collection.
-2. **Given** plusieurs ouvertures successives, **When** le joueur ouvre des
-   boosters, **Then** chaque tirage est effectué selon les probabilités de
-   rareté et ne peut pas être choisi ou prédit par le joueur.
-3. **Given** une tentative d'ouverture par un visiteur non connecté, **When** il
-   demande un booster, **Then** aucune carte n'est attribuée et une invitation à
-   se connecter est affichée.
+2. **Given** multiple successive openings, **When** the player opens boosters,
+   **Then** every draw follows the rarity probabilities and cannot be chosen or
+   predicted by the player.
+3. **Given** an opening attempt by a visitor who is not signed in, **When** they
+   request a booster, **Then** no card is assigned and they are invited to sign
+   in.
 
 ---
 
-### User Story 3 - Garantir le stock des cartes spéciales (Priority: P1)
+### User Story 3 - Enforce special-card stock (Priority: P1)
 
-En tant que joueur, je veux que les cartes spéciales soient réellement limitées
-afin que leur rareté et leur valeur restent cohérentes.
+As a player, I want special cards to remain genuinely limited so that their
+rarity and value stay consistent.
 
-**Why this priority**: Le stock limité est une règle centrale du jeu et doit
-empêcher toute duplication d'un exemplaire unique.
+**Why this priority**: Limited stock is a core game rule and must prevent
+duplication of a unique physical copy.
 
-**Independent Test**: En configurant un stock connu, on ouvre suffisamment de
-boosters pour l'épuiser, puis on vérifie qu'aucun tirage ultérieur ne contient
-une carte spéciale épuisée.
+**Independent Test**: With a known stock configured, enough boosters are opened
+to exhaust it, and no later draw contains an exhausted special card.
 
 **Acceptance Scenarios**:
 
-1. **Given** une carte spéciale dont le stock est supérieur à zéro, **When** un
-   tirage la sélectionne, **Then** elle est attribuée au joueur et son stock
-   restant diminue d'une unité.
-2. **Given** une carte spéciale dont le stock est égal à zéro, **When** un
-   booster est ouvert, **Then** cette carte ne peut pas être renvoyée.
-3. **Given** une carte spéciale à stock unique déjà attribuée à un joueur,
-   **When** ce joueur consulte ou ouvre des boosters, **Then** il ne voit et
-   n'obtient pas un second exemplaire de cette carte.
-4. **Given** plusieurs ouvertures simultanées visant le dernier exemplaire,
-   **When** les tirages sont traités, **Then** un seul joueur au maximum reçoit
-   cet exemplaire et le stock ne devient jamais négatif.
+1. **Given** a special card with stock above zero, **When** a draw selects it,
+   **Then** it is assigned to the player and its remaining stock decreases by one.
+2. **Given** a special card with zero remaining stock, **When** a booster is
+   opened, **Then** that card cannot be returned.
+3. **Given** a unique-stock special card already assigned to a player, **When**
+   that player views or opens boosters, **Then** they cannot see or receive a
+   second copy of that physical card.
+4. **Given** multiple simultaneous openings targeting the last copy, **When**
+   the draws are processed, **Then** at most one player receives it and stock
+   never becomes negative.
 
 ---
 
-### User Story 4 - Consulter et filtrer sa collection (Priority: P2)
+### User Story 4 - Browse and filter the collection (Priority: P2)
 
-En tant que joueur, je consulte ma collection et la filtre par type, rareté ou
-continent, avec une recherche par nom.
+As a player, I view my collection and filter it by type, rarity, or continent,
+with a name search.
 
-**Why this priority**: Une collection devient rapidement difficile à parcourir
-sans outils de recherche.
+**Why this priority**: A collection quickly becomes difficult to browse without
+search and filtering tools.
 
-**Independent Test**: Une collection de cartes de types, raretés et continents
-différents peut être filtrée avec chaque critère et recherchée par nom.
+**Independent Test**: A collection containing different types, rarities, and
+continents can be filtered by each criterion and searched by name.
 
 **Acceptance Scenarios**:
 
-1. **Given** une collection contenant plusieurs cartes, **When** le joueur
-   sélectionne un type, une rareté ou un continent, **Then** seules les cartes
-   correspondant au filtre sont affichées.
-2. **Given** une collection contenant plusieurs noms, **When** le joueur saisit
-   une recherche correspondant partiellement à un nom, **Then** les résultats
-   pertinents sont affichés.
-3. **Given** des filtres ne correspondant à aucune carte, **When** le joueur les
-   applique, **Then** la collection affiche un état vide explicite.
+1. **Given** a collection containing several cards, **When** the player selects a
+   type, rarity, or continent, **Then** only matching cards are displayed.
+2. **Given** a collection containing several names, **When** the player enters a
+   partial name search, **Then** relevant results are displayed.
+3. **Given** filters matching no cards, **When** the player applies them, **Then**
+   the collection displays a clear empty state.
 
 ---
 
-### User Story 5 - Consulter une carte et sa progression (Priority: P2)
+### User Story 5 - View card details and progress (Priority: P2)
 
-En tant que joueur, je consulte la fiche détaillée d'une carte et ma
-progression par rapport au total disponible.
+As a player, I view a card's detailed page and my progress compared with the
+total available collection.
 
-**Why this priority**: Les détails et la progression donnent un objectif de
-collection et permettent de comprendre les cartes obtenues.
+**Why this priority**: Details and progress give players a collection goal and
+help them understand the cards they obtain.
 
-**Independent Test**: Depuis une collection, le joueur ouvre une carte, vérifie
-toutes ses informations, puis consulte le nombre de cartes possédées et le total
-disponible.
+**Independent Test**: From a collection, the player opens a card, verifies all
+its information, and views the owned-card count and available total.
 
 **Acceptance Scenarios**:
 
-1. **Given** une carte visible dans la collection, **When** le joueur ouvre sa
-   fiche, **Then** il voit son nom, son type, sa rareté et les informations
-   géographiques ou historiques disponibles.
-2. **Given** une collection partiellement complétée, **When** le joueur consulte
-   sa progression, **Then** le nombre possédé et le total disponible sont
-   affichés sans compter deux fois un même exemplaire spécial.
-3. **Given** une carte spéciale épuisée, **When** un joueur qui ne la possède pas
-   consulte le catalogue ou sa progression, **Then** son statut de disponibilité
-   est présenté de manière cohérente.
+1. **Given** a card visible in the collection, **When** the player opens its
+   details, **Then** they see its name, type, rarity, and available geographic
+   or historical information.
+2. **Given** a partially completed collection, **When** the player views progress,
+   **Then** the owned count and available total are shown without counting the
+   same special copy twice.
+3. **Given** an exhausted special card, **When** a player who does not own it
+   views the catalog or progress, **Then** its availability status is shown
+   consistently.
 
 ---
 
-### User Story 6 - Gérer les cartes spéciales (Priority: P2)
+### User Story 6 - Manage special cards (Priority: P2)
 
-En tant qu'administrateur, j'ajoute ou modifie une carte spéciale et son stock
-restant.
+As an administrator, I add or edit a special card and its remaining stock.
 
-**Why this priority**: L'administration du catalogue est nécessaire pour
-maintenir les contenus historiques et les stocks limités.
+**Why this priority**: Catalog administration is required to maintain historical
+content and limited stock.
 
-**Independent Test**: Un administrateur peut créer une carte spéciale avec un
-stock valide, modifier ses informations, puis vérifier que le nouveau stock est
-pris en compte dans les tirages.
+**Independent Test**: An administrator can create a special card with valid
+stock, edit its information, and verify that the resulting stock is used by
+future draws.
 
 **Acceptance Scenarios**:
 
-1. **Given** un administrateur authentifié, **When** il crée une carte spéciale
-   avec des informations complètes et un stock valide, **Then** la carte devient
-   disponible selon ce stock.
-2. **Given** une carte spéciale existante, **When** l'administrateur modifie ses
-   informations ou son stock avec une valeur valide, **Then** les changements
-   sont enregistrés et appliqués aux tirages futurs.
-3. **Given** un joueur sans droits d'administration, **When** il tente de gérer
-   une carte spéciale, **Then** l'action est refusée.
-4. **Given** un stock déjà attribué, **When** l'administrateur saisit un stock
-   inférieur au nombre d'exemplaires attribués, **Then** la modification est
-   refusée avec une explication.
+1. **Given** an authenticated administrator, **When** they create a special card
+   with complete information and valid stock, **Then** it becomes available
+   according to that stock.
+2. **Given** an existing special card, **When** the administrator edits its
+   information or stock with a valid value, **Then** the changes are saved and
+   applied to future draws.
+3. **Given** a player without administrator rights, **When** they attempt to
+   manage a special card, **Then** the action is rejected.
+4. **Given** stock that has already been assigned, **When** the administrator
+   enters stock below the number of assigned copies, **Then** the change is
+   rejected with an explanation.
 
 ### Edge Cases
 
-- Un booster demandé alors qu'aucune carte disponible ne peut être tirée est
-  refusé sans modifier la collection ni les stocks.
-- Une carte spéciale supprimée ou rendue indisponible reste identifiable dans
-  les collections où elle a déjà été attribuée.
-- Une population absente, nulle ou invalide empêche la génération ou la mise à
-  jour de la rareté au lieu de produire une rareté arbitraire.
-- Une mise à jour de population peut changer la rareté affichée pour les
-  nouvelles générations, mais ne doit pas créer de doublon ni supprimer une
-  carte déjà possédée.
-- Une recherche sans résultat, une collection vide et un catalogue vide ont des
-  états d'interface distincts et explicites.
-- Une perte de connexion ou une double soumission lors d'un tirage ne doit pas
-  attribuer deux fois le même exemplaire spécial.
+- A booster requested when no card can be drawn is rejected without changing
+  the collection or stock.
+- A deleted or unavailable special card remains identifiable in collections
+  where it was already assigned.
+- Missing, zero, or invalid population prevents rarity generation or updating
+  instead of producing an arbitrary rarity.
+- A population update may change rarity for new assignments, but must not change
+  the fixed rarity of an assigned card, create a duplicate, or remove an owned
+  card.
+- A no-result search, an empty collection, and an empty catalog have distinct,
+  explicit interface states.
+- A connection loss or duplicate submission during a draw must not assign the
+  same physical special copy twice.
 
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
 
-- **FR-001**: Le système DOIT permettre à un visiteur de créer un compte avec des
-  informations valides et à un joueur de se connecter pour accéder à sa
-  collection.
-- **FR-002**: Le système DOIT isoler chaque collection afin qu'un joueur ne
-  puisse consulter ou modifier que ses propres cartes.
-- **FR-003**: Le système DOIT représenter les cartes Pays avec un nom, une
-  population, un continent et un drapeau.
-- **FR-004**: Le système DOIT représenter les cartes Capitale avec la capitale
-  actuelle du pays associé.
-- **FR-005**: Le système DOIT représenter les cartes Drapeau avec le drapeau
-  actuel du pays associé.
-- **FR-006**: Le système DOIT permettre des cartes spéciales d'ancien drapeau,
-  d'ancienne capitale et d'ancien nom de pays, sans exiger qu'elles existent
-  pour tous les pays.
-- **FR-007**: Le système DOIT attribuer une rareté basée sur la population du
-  pays, avec les niveaux Commune, Peu commune, Rare, Épique et Légendaire, et
-  la catégorie Spéciale au-dessus de ces niveaux.
-- **FR-008**: Le système DOIT calculer la rareté de manière cohérente à partir
-  de la population actuellement enregistrée au moment de la génération ou de
-  la mise à jour des cartes.
-- **FR-009**: Le système DOIT ouvrir un booster uniquement pour un joueur
-  connecté et lui attribuer un lot de cartes tirées aléatoirement selon les
-  règles de rareté.
-- **FR-010**: Le tirage, ses probabilités et la décrémentation du stock spécial
-  DOIVENT être exécutés de manière non contrôlable par le client.
-- **FR-011**: Le système NE DOIT JAMAIS attribuer une carte spéciale dont le
-  stock restant est nul.
-- **FR-012**: Le système DOIT empêcher qu'un même exemplaire d'une carte
-  spéciale à stock unique soit attribué ou visible deux fois pour un joueur.
-- **FR-013**: Le système DOIT garantir qu'une concurrence entre tirages ne rend
-  jamais le stock d'une carte spéciale négatif et ne distribue pas deux fois le
-  dernier exemplaire.
-- **FR-014**: Le système DOIT permettre de filtrer la collection par type,
-  rareté et continent, et de rechercher par nom.
-- **FR-015**: Le système DOIT afficher une fiche détaillée avec toutes les
-  informations disponibles pour une carte.
-- **FR-016**: Le système DOIT afficher la progression d'un joueur avec le nombre
-  de cartes possédées et le total de cartes disponibles, en comptant correctement
-  les exemplaires spéciaux.
-- **FR-017**: Le système DOIT permettre à un administrateur autorisé d'ajouter
-  et de modifier une carte spéciale ainsi que son stock restant.
-- **FR-018**: Le système DOIT refuser un stock administré inférieur au nombre
-  d'exemplaires déjà attribués.
-- **FR-019**: Le système DOIT valider les entrées utilisateur et afficher des
-  erreurs explicites sans exposer de données sensibles.
-- **FR-020**: Les mots de passe DOIVENT être protégés et ne doivent jamais être
-  affichés ou stockés en clair.
-- **FR-021**: Le système DOIT conserver la traçabilité de cette fonctionnalité
-  vers sa spécification et les prompts utilisés pour la générer.
-- **FR-022**: Les sources de population, capitales, drapeaux et images DOIVENT
-  être identifiées et leurs conditions d'utilisation compatibles avec le projet.
+- **FR-001**: The system MUST allow a visitor to create an account with valid
+  information and a player to sign in to access their collection.
+- **FR-002**: The system MUST isolate each collection so that a player can view
+  or modify only their own cards.
+- **FR-003**: The system MUST represent Country cards with a name, population,
+  continent, and flag.
+- **FR-004**: The system MUST represent Capital cards with the associated
+  country's current capital.
+- **FR-005**: The system MUST represent Flag cards with the associated country's
+  current flag.
+- **FR-006**: The system MUST support special cards for former flags, former
+  capitals, and former country names, without requiring them for every country.
+- **FR-007**: The system MUST assign rarity using configurable population
+  thresholds: Common, Uncommon, Rare, Epic, and Legendary, with Special above
+  these levels.
+- **FR-008**: The system MUST calculate rarity consistently from the population
+  currently recorded at generation time by applying the active documented
+  thresholds.
+- **FR-008a**: The system MUST use a configurable probability table by rarity
+  for boosters, with documented initial values that can be verified by tests.
+- **FR-008b**: The system MUST freeze an instance's rarity when it is assigned
+  and MUST NOT recalculate it retroactively when population or thresholds change.
+- **FR-009**: The system MUST open a booster only for a signed-in player and
+  assign a fixed bundle of 5 cards drawn randomly according to the rarity rules.
+- **FR-010**: Draws, their probabilities, and special-stock decrementation MUST
+  run in a way that the client cannot control.
+- **FR-011**: The system MUST NEVER assign a special card whose remaining stock
+  is zero.
+- **FR-012**: The system MUST prevent the same physical copy of a special card
+  from being assigned or shown twice to a player, while allowing multiple
+  distinct copies of the same special card when stock permits.
+- **FR-013**: The system MUST ensure concurrent draws never make special-card
+  stock negative or distribute the last copy twice.
+- **FR-014**: The system MUST allow collection filtering by type, rarity, and
+  continent, and searching by name.
+- **FR-015**: The system MUST display a detailed page with all available
+  information for a card.
+- **FR-016**: The system MUST display a player's progress as owned cards
+  compared with the total available cards, counting special copies correctly.
+- **FR-017**: The system MUST allow an authorized administrator to add and edit
+  a special card and its remaining stock.
+- **FR-018**: The system MUST reject an administered stock lower than the number
+  of copies already assigned.
+- **FR-019**: The system MUST validate user input and show explicit errors
+  without exposing sensitive data.
+- **FR-020**: Passwords MUST be protected and MUST NEVER be displayed or stored
+  in plain text.
+- **FR-021**: The system MUST preserve traceability from this feature to its
+  specification and the prompts used to generate it.
+- **FR-022**: Population, capital, flag, and image sources MUST be identified and
+  their terms of use MUST be compatible with the project.
 
 ### Key Entities
 
-- **Joueur**: compte authentifié qui possède une collection et un rôle joueur ou
-  administrateur.
-- **Pays**: entité géographique de référence avec nom, population, continent,
-  capitale actuelle et drapeau actuel.
-- **Carte**: représentation collectionnable liée à un pays, avec un type, une
-  rareté et les informations nécessaires à sa fiche.
-- **Carte spéciale**: carte historique liée à un pays, avec une description de
-  l'ancienne information et un stock limité.
-- **Exemplaire**: attribution d'une carte à un joueur, identifiant un exemplaire
-  spécial afin d'empêcher sa duplication.
-- **Booster**: opération qui produit un lot de cartes pour un joueur selon les
-  règles de tirage.
-- **Progression**: indicateurs du nombre de cartes possédées par rapport au
-  total disponible.
+- **Player**: An authenticated account that owns a collection and has a player or
+  administrator role.
+- **Country**: A geographic reference entity with a name, population, continent,
+  current capital, and current flag.
+- **Card**: A collectible representation linked to a country, with a type,
+  rarity, and information required for its details.
+- **Special card**: A historical card linked to a country, with a description of
+  the former information and a limited stock.
+- **Instance**: A card assignment to a player that identifies a special physical
+  copy and prevents its duplication.
+- **Booster**: An operation that produces a bundle of cards for a player
+  according to the draw rules.
+- **Progress**: Indicators of the number of owned cards compared with the total
+  available.
 
 ## Success Criteria *(mandatory)*
 
 ### Measurable Outcomes
 
-- **SC-001**: Au moins 95 % des utilisateurs de test peuvent créer un compte,
-  se connecter et retrouver leur collection sans aide lors de leur première
-  tentative.
-- **SC-002**: 100 % des tirages de test n'attribuent aucune carte spéciale dont
-  le stock est nul, y compris lors de tirages concurrents.
-- **SC-003**: 100 % des cartes générées ou mises à jour dans les tests affichent
-  une rareté correspondant à la population actuellement enregistrée.
-- **SC-004**: 100 % des tests de stock unique empêchent la double attribution ou
-  la double visibilité d'un même exemplaire spécial pour un joueur.
-- **SC-005**: Au moins 90 % des utilisateurs de test trouvent une carte donnée
-  en moins de 30 secondes en combinant les filtres et la recherche.
-- **SC-006**: Au moins 90 % des utilisateurs de test consultent la fiche d'une
-  carte et identifient ses informations principales sans assistance.
-- **SC-007**: Un administrateur de test peut ajouter ou modifier une carte
-  spéciale et vérifier le stock résultant en moins de 2 minutes.
-- **SC-008**: Aucune fonctionnalité de la version 1 ne permet l'échange entre
-  joueurs, le classement ou la conversion de doublons.
+- **SC-001**: At least 95% of test users can create an account, sign in, and
+  find their collection without help on their first attempt.
+- **SC-002**: 100% of test draws assign no special card whose stock is zero,
+  including concurrent draws.
+- **SC-003**: 100% of newly generated cards in tests show rarity matching the
+  currently recorded population and thresholds, while assigned instances retain
+  their historical rarity.
+- **SC-004**: 100% of unique-stock tests prevent duplicate assignment or
+  duplicate visibility of the same physical special copy for a player.
+- **SC-005**: At least 90% of test users find a specified card in under
+  30 seconds using filters and search.
+- **SC-006**: At least 90% of test users view a card's details and identify its
+  key information without assistance.
+- **SC-007**: A test administrator can add or edit a special card and verify the
+  resulting stock in under 2 minutes.
+- **SC-008**: No version 1 feature allows player trading, leaderboards, or
+  duplicate conversion.
 
 ## Assumptions
 
-- La version 1 est accessible via un navigateur et vise des joueurs disposant
-  d'une connexion internet stable.
-- L'inscription standard repose sur une adresse ou un identifiant unique et un
-  mot de passe ; aucun fournisseur d'identité externe n'est requis.
-- Un booster possède un nombre fixe de cartes défini par les règles du jeu,
-  mais ce nombre pourra être précisé pendant la planification.
-- Les seuils numériques exacts entre les niveaux de rareté et les probabilités
-  de tirage seront définis dans la conception sans modifier les règles de
-  classement énoncées ici.
-- Les cartes spéciales à stock supérieur à un peuvent être obtenues par
-  plusieurs joueurs, tandis qu'un stock égal à un identifie un exemplaire unique.
-- Les données de référence sont maintenues par une source unique validée et
-  versionnée ; leur mise à jour ne supprime pas les historiques déjà collectés.
-- Les échanges entre joueurs, le classement et la conversion de doublons sont
-  explicitement hors périmètre de cette version.
+- Version 1 is browser-accessible and targets players with a stable internet
+  connection.
+- Standard registration uses a unique email address or username and a password;
+  no external identity provider is required.
+- A booster contains 5 cards in version 1, and all boosters use the same format.
+- Initial numeric values for rarity thresholds and draw probabilities will be
+  defined and documented during design; configuration must preserve the stated
+  rarity rules.
+- Special cards with stock above one may be obtained by multiple players, and
+  one player may own multiple distinct copies; each physical copy may be assigned
+  only once.
+- Reference data is maintained by one validated, versioned source; updates do
+  not remove already collected history.
+- An assigned instance's rarity is a historical snapshot; only new assignments
+  apply updated populations and thresholds.
+- Player trading, leaderboards, and duplicate conversion are explicitly out of
+  scope for this version.
