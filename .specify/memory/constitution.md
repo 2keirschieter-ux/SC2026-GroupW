@@ -75,7 +75,7 @@ Implementations MUST remain traceable to their specification and generation
 prompts. Any necessary deviation MUST be reported in the feature documentation
 with its justification.
 
-## Gouvernance
+## Governance
 
 This constitution takes precedence over contradictory project practices. Every
 change MUST be proposed in a versioned update to this file, describe its impact
