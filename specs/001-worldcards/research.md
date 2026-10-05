@@ -22,9 +22,10 @@ document database would add complexity for relational ownership and stock rules.
 
 ## Decision: Keep authentication simple and server-managed
 
-**Rationale**: Version 1 uses email-or-username and password registration with
-bcrypt hashing, server-side session checks, and role authorization. OAuth is not
-required for the MVP and would add external configuration and privacy concerns.
+**Rationale**: Version 1 uses normalized email and password registration with
+bcrypt hashing, server-side session checks, and role authorization. Username
+authentication and OAuth are not required for the MVP and would add external
+configuration and privacy concerns.
 
 **Alternatives considered**: OAuth can be added later, but it is not necessary
 to satisfy the current user stories.

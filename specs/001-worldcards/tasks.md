@@ -40,8 +40,8 @@ description: "Implementation task list for WorldCards"
 - [ ] T014 [P] Implement role guards and authenticated-user helpers that never expose password hashes in `src/lib/auth/guards.ts`
 - [ ] T015 [P] Implement shared API error responses, request logging, and no-sensitive-data serialization in `src/lib/api/errors.ts` and `src/lib/api/serializers.ts`
 - [ ] T016 [P] Add responsive application shell, navigation, loading, error, and explicit empty-state components in `src/components/`
-- [ ] T017 Seed a validated source snapshot, initial active rarity configuration, base-country card records, and an administrator account without committing secrets in `prisma/seed/`
-- [ ] T018 [P] Add foundational database constraint and server-boundary tests in `tests/integration/foundation.test.ts`
+- [ ] T017 Seed a validated source snapshot, initial active rarity configuration, base-country card records, and an administrator account whose initial credential is supplied through a one-time environment variable or setup flow and bcrypt-hashed before persistence, without committing secrets, in `prisma/seed/`
+- [ ] T018 [P] Add foundational database constraint, server-boundary, conditional ownership, and stock-invariant tests proving base cards have null `card_instance_id`, special cards require it, assigned instances are unique, and stock never becomes negative in `tests/integration/foundation.test.ts` and `tests/integration/card-invariants.test.ts`
 
 **Checkpoint**: Database schema, server-only boundaries, validation, sessions, and shared UI infrastructure are ready for story work.
 
@@ -54,13 +54,13 @@ description: "Implementation task list for WorldCards"
 ### Tests for User Story 1
 
 - [ ] T019 [P] [US1] Add authentication contract tests for register, sign-in, and sign-out responses in `tests/integration/auth-contract.test.ts`
-- [ ] T020 [P] [US1] Add authentication boundary and collection-isolation tests for duplicate identifiers, invalid credentials, and cross-user access in `tests/integration/auth-boundaries.test.ts`
+- [ ] T020 [P] [US1] Add authentication boundary and collection-isolation tests for duplicate emails, invalid credentials, and cross-user access in `tests/integration/auth-boundaries.test.ts`
 - [ ] T021 [P] [US1] Add browser smoke coverage for registration, sign-in, sign-out, and empty collection recovery in `tests/e2e/auth-collection.spec.ts`
 
 ### Implementation for User Story 1
 
 - [ ] T022 [P] [US1] Implement bcrypt password hashing and generic credential verification in `src/lib/auth/passwords.ts`
-- [ ] T023 [US1] Implement user registration, duplicate-identifier handling, and public identity creation in `src/lib/auth/register.ts`
+- [ ] T023 [US1] Implement email-only registration, duplicate-email handling, and public identity creation in `src/lib/auth/register.ts`
 - [ ] T024 [US1] Implement sign-in and sign-out services using server-managed sessions in `src/lib/auth/sign-in.ts`
 - [ ] T025 [US1] Implement `POST /api/auth/register` in `src/app/api/auth/register/route.ts` according to `contracts/auth.md`
 - [ ] T026 [US1] Implement `POST /api/auth/sign-in` in `src/app/api/auth/sign-in/route.ts` with generic invalid-credential errors
@@ -191,11 +191,15 @@ description: "Implementation task list for WorldCards"
 
 - [ ] T065 [P] Add end-to-end regression coverage for the complete register-to-booster-to-filter-to-detail journey in `tests/e2e/worldcards-journey.spec.ts`
 - [ ] T066 [P] Add accessibility checks for authentication, collection, booster, detail, and admin views in `tests/e2e/accessibility.spec.ts`
-- [ ] T067 [P] Add server performance checks for collection/card-detail responses under the 1-second target and successful booster openings under the 2-second target in `tests/integration/performance.test.ts`
-- [ ] T068 [P] Add data-import validation, checksum/version recording, source-license retention, and deterministic base-card generation in `src/lib/data-import/` and `prisma/seed/`
+- [ ] T067 [P] Add performance checks for 20 concurrent users issuing 100 collection/card-detail requests and 50 successful booster openings, asserting p95 collection/card-detail latency <= 1 second and p95 booster latency <= 2 seconds in `tests/integration/performance.test.ts`
+- [ ] T068 [P] Add data-import validation, checksum/version recording, source URL/retrieval date/license/terms/attribution retention, and deterministic Country, Capital, and Flag card generation from a validated snapshot in `src/lib/data-import/` and `prisma/seed/`
 - [ ] T069 [P] Document API behavior, data-source attribution, rarity configuration, and implementation deviations in `README.md` and `docs/`
 - [ ] T070 Run the scenarios in `specs/001-worldcards/quickstart.md`, the full lint/type-check/test suite, and verify no version-1 feature adds trading, leaderboards, or duplicate conversion
 - [ ] T071 Review the implementation against `.specify/memory/constitution.md`, update `specs/001-worldcards/plan.md` for any justified deviations, and record the final traceability evidence in `specs/001-worldcards/`
+- [ ] T072 [P] Add integration tests for increasing and decreasing `stock_total`, creation/removal of only unassigned physical instances, recomputed `stock_remaining`, and rejection below assigned copies in `tests/integration/admin-stock-adjustments.test.ts`
+- [ ] T073 [US6] Implement transactional stock-total adjustment semantics, including creation/removal of unassigned instances and rejection below assigned copies, in `src/lib/cards/admin-special-cards.ts`
+- [ ] T074 [P] Create a requirements-to-tests traceability matrix covering FR-001 through FR-022, buildable SC-002 through SC-008, and the generation prompt reference in `specs/001-worldcards/traceability.md`
+- [ ] T075 [P] Document the exact source evidence required for each imported field, including source URL, retrieval date, checksum/version, license/terms reference, and attribution text, in `docs/data-sources.md`
 
 ## Dependencies & Execution Order
 
@@ -206,7 +210,7 @@ description: "Implementation task list for WorldCards"
 - **US1 (Phase 3)**: Depends on Phase 2; MVP authentication and collection access.
 - **US2 (Phase 4)**: Depends on Phase 2 and US1's authenticated-user boundary.
 - **US3 (Phase 5)**: Depends on US2's transaction and draw pipeline.
-- **US4 (Phase 6)**: Depends on US1 and the owned-card records produced by US2.
+- **US4 (Phase 6)**: UI/query scaffolding may begin after US1, but independently testable completion depends on owned-card records produced by US2.
 - **US5 (Phase 7)**: Depends on US3 plus collection data from US1/US2.
 - **US6 (Phase 8)**: Depends on Phase 2 role guards and US3 stock/instance behavior.
 - **Polish (Phase 9)**: Depends on all desired stories being complete.
@@ -219,7 +223,7 @@ Phase 2 ──┬──> US1 ──> US2 ──> US3 ──> US5
           └──> US6 (also requires US3 stock behavior)
 ```
 
-US4 can begin after US1 and US2; US6 can begin after the shared foundation but its stock-invariant implementation must wait for US3. US5 waits for the stable special-copy representation.
+US4 scaffolding can begin after US1, while US4 story validation waits for US2-owned-card data. US6 can begin after the shared foundation, but its stock-invariant implementation must wait for US3. US5 waits for the stable special-copy representation.
 
 ### Parallel Opportunities
 

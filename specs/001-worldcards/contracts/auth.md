@@ -4,12 +4,12 @@
 
 `POST /api/auth/register`
 
-Request: unique email or username and password.
+Request: unique email and password. Email is normalized before uniqueness checks.
 
 Success: authenticated session and public user identity (`id`, display
 identifier, role). Never return the password or password hash.
 
-Errors: validation failure, duplicate identifier, or invalid credentials are
+Errors: validation failure, duplicate email, or invalid credentials are
 reported as explicit client-safe errors.
 
 ## Sign in

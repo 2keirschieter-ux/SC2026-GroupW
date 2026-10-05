@@ -5,7 +5,7 @@
 | Field | Type | Rules |
 |-------|------|-------|
 | id | UUID | Primary key |
-| email | string | Required, normalized, unique |
+| email | string | Required, normalized, unique; the only supported account identifier in version 1 |
 | password_hash | string | Required; bcrypt hash only |
 | role | enum | `player` or `admin`; defaults to `player` |
 | created_at | timestamp | Required |
@@ -53,8 +53,8 @@ Only validated snapshots may generate or update cards.
 | rarity_config_version | string | Required |
 | description | string | Required for special cards |
 | historical_kind | enum | Required only for special cards |
-| stock_total | integer | Required for special cards; otherwise null |
-| stock_remaining | integer | Required for special cards; never negative |
+| stock_total | integer | Required for special cards; otherwise null; total physical-copy capacity |
+| stock_remaining | integer | Required for special cards; never negative; equals `stock_total` minus assigned copies |
 | source_reference | string | Required for special cards |
 | active | boolean | Existing owned cards remain referencable when false |
 
@@ -71,7 +71,9 @@ manually curated and require historical source attribution.
 | assigned_at | timestamp | Null until assigned |
 
 For special cards, one row exists per physical copy. A copy can be assigned at
-most once.
+most once. Increasing `stock_total` creates new unassigned rows; decreasing it
+removes only unassigned rows and is rejected when the requested total is below
+the number already assigned.
 
 ## UserCard
 
@@ -86,7 +88,8 @@ most once.
 | booster_opening_id | UUID | Required for booster rewards |
 
 The combination of `user_id` and `card_instance_id` is unique. Base cards may
-have multiple owned copies; special physical instances may not.
+have multiple owned copies; special physical instances may not. For base cards,
+`card_instance_id` is null; for special cards, it is required.
 
 ## BoosterOpening
 
@@ -126,5 +129,8 @@ available special stock and do not use the base rarity thresholds.
 - A `User` receives many `UserCard` rows through `BoosterOpening`.
 - A special-card allocation changes one unassigned `CardInstance` to assigned and
   decrements `Card.stock_remaining` in the same transaction.
+- A stock edit changes `stock_total` and creates or removes only unassigned
+  `CardInstance` rows; `stock_remaining` is recomputed as total capacity minus
+  assigned copies in the same transaction.
 - An opening is `pending` before allocation, `completed` only after all five
   cards and ownership rows are committed, and `failed` after rollback.

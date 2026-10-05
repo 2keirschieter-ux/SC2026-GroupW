@@ -31,9 +31,12 @@ PostgreSQL database
 
 **Project Type**: Full-stack web application
 
-**Performance Goals**: 95% of collection searches and card-detail views complete
-within 1 second under the version-1 target load; booster opening completes within
-2 seconds for 95% of successful requests
+**Performance Goals**: Under the version-1 target load of 20 concurrent users
+performing 100 collection/card-detail requests and 50 successful booster
+openings, at least 95% of collection searches and card-detail views complete
+within 1 second and at least 95% of successful booster openings complete within
+2 seconds. Performance tests must report p95 latency and fail when either
+threshold is exceeded.
 
 **Constraints**: Draw logic and stock changes MUST remain server-only; special
 stock decrement MUST be atomic; passwords MUST be hashed; user input MUST be

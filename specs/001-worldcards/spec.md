@@ -16,6 +16,8 @@
 - Q: How many cards should a booster contain in version 1? → A: 5 cards per booster, with the same bundle size for every opening.
 - Q: When a special card has multiple copies in stock, may the same player own multiple distinct copies? → A: Yes, if stock allows it; each physical copy may be assigned only once.
 - Q: When a population update changes a country's rarity level, should already-owned cards change too? → A: No, rarity is fixed at assignment; new draws use current data.
+- Q: Which account identifier is supported in version 1? → A: Email only; email is normalized and unique, and username authentication is out of scope.
+- Q: How are special-card stock edits interpreted? → A: `stock_total` is the total physical-copy capacity and `stock_remaining` is the number of unassigned copies. Increasing total stock creates new unassigned physical instances; decreasing total stock is allowed only when it remains at least the number already assigned.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -143,7 +145,7 @@ its information, and views the owned-card count and available total.
 
 ### User Story 6 - Manage special cards (Priority: P2)
 
-As an administrator, I add or edit a special card and its remaining stock.
+As an administrator, I add or edit a special card and its total physical-copy stock.
 
 **Why this priority**: Catalog administration is required to maintain historical
 content and limited stock.
@@ -226,17 +228,21 @@ future draws.
 - **FR-016**: The system MUST display a player's progress as owned cards
   compared with the total available cards, counting special copies correctly.
 - **FR-017**: The system MUST allow an authorized administrator to add and edit
-  a special card and its remaining stock.
-- **FR-018**: The system MUST reject an administered stock lower than the number
-  of copies already assigned.
+  a special card and its total physical-copy stock. `stock_remaining` MUST equal
+  `stock_total` minus assigned copies after every successful change.
+- **FR-018**: The system MUST reject an administered `stock_total` lower than the
+  number of copies already assigned and MUST create or remove only unassigned
+  physical instances when total stock changes.
 - **FR-019**: The system MUST validate user input and show explicit errors
   without exposing sensitive data.
 - **FR-020**: Passwords MUST be protected and MUST NEVER be displayed or stored
   in plain text.
 - **FR-021**: The system MUST preserve traceability from this feature to its
   specification and the prompts used to generate it.
-- **FR-022**: Population, capital, flag, and image sources MUST be identified and
-  their terms of use MUST be compatible with the project.
+- **FR-022**: Population, capital, flag, and image sources MUST be identified
+  with source URL, retrieval date, version/checksum, license or terms reference,
+  and attribution text, and their terms of use MUST be compatible with the
+  project.
 
 ### Key Entities
 
@@ -281,8 +287,8 @@ future draws.
 
 - Version 1 is browser-accessible and targets players with a stable internet
   connection.
-- Standard registration uses a unique email address or username and a password;
-  no external identity provider is required.
+- Standard registration uses a normalized unique email address and a password;
+  no username or external identity provider is required.
 - A booster contains 5 cards in version 1, and all boosters use the same format.
 - Initial numeric values for rarity thresholds and draw probabilities will be
   defined and documented during design; configuration must preserve the stated
