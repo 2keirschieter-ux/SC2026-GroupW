@@ -17,12 +17,12 @@ description: "Implementation task list for WorldCards"
 
 **Purpose**: Initialize the single Next.js TypeScript application and its development tooling.
 
-- [ ] T001 Create the Next.js App Router project structure with TypeScript under `src/`, `tests/`, `prisma/`, and `public/`
-- [ ] T002 Initialize `package.json` with Next.js, React, TypeScript, PostgreSQL ORM/client, bcrypt, Zod, test runner, and browser smoke-test dependencies
-- [ ] T003 [P] Configure TypeScript, Next.js, ESLint, and formatting rules in `tsconfig.json`, `next.config.ts`, `eslint.config.mjs`, and `.prettierrc`
-- [ ] T004 [P] Configure unit, integration, and end-to-end test projects in `vitest.config.ts` and `playwright.config.ts`
-- [ ] T005 [P] Document required Node.js, PostgreSQL, database, session-secret, and bcrypt environment variables in `.env.example` and `README.md`
-- [ ] T006 [P] Add source attribution and license/terms records for REST Countries and flag assets in `docs/data-sources.md`
+- [X] T001 Create the Next.js App Router project structure with TypeScript under `src/`, `tests/`, `prisma/`, and `public/`
+- [X] T002 Initialize `package.json` with Next.js, React, TypeScript, PostgreSQL ORM/client, bcrypt, Zod, test runner, and browser smoke-test dependencies
+- [X] T003 [P] Configure TypeScript, Next.js, ESLint, and formatting rules in `tsconfig.json`, `next.config.ts`, `eslint.config.mjs`, and `.prettierrc`
+- [X] T004 [P] Configure unit, integration, and end-to-end test projects in `vitest.config.ts` and `playwright.config.ts`
+- [X] T005 [P] Document required Node.js, PostgreSQL, database, session-secret, and bcrypt environment variables in `.env.example` and `README.md`
+- [X] T006 [P] Add source attribution and license/terms records for REST Countries and flag assets in `docs/data-sources.md`
 
 ## Phase 2: Foundational (Blocking Prerequisites)
 
@@ -30,18 +30,18 @@ description: "Implementation task list for WorldCards"
 
 **⚠️ CRITICAL**: No user story implementation can begin until this phase is complete.
 
-- [ ] T007 Define the User, DataSnapshot, Country, Card, CardInstance, UserCard, BoosterOpening, and RarityConfig models with all required enums, foreign keys, unique constraints, and stock invariants in `prisma/schema.prisma`
-- [ ] T008 Create and verify the initial PostgreSQL migration for the WorldCards schema in `prisma/migrations/`
-- [ ] T009 [P] Create shared domain enums, API response types, and public card/identity types in `src/types/domain.ts`
-- [ ] T010 [P] Implement server-only database client lifecycle and transaction helpers in `src/lib/db/client.ts` and `src/lib/db/transactions.ts`
-- [ ] T011 [P] Implement environment parsing with explicit startup errors for missing database and session configuration in `src/lib/config.ts`
-- [ ] T012 [P] Implement Zod schemas and explicit client-safe validation error mapping in `src/lib/validation/`
-- [ ] T013 [P] Implement server-managed session creation, lookup, invalidation, and cookie handling in `src/lib/auth/session.ts`
-- [ ] T014 [P] Implement role guards and authenticated-user helpers that never expose password hashes in `src/lib/auth/guards.ts`
-- [ ] T015 [P] Implement shared API error responses, request logging, and no-sensitive-data serialization in `src/lib/api/errors.ts` and `src/lib/api/serializers.ts`
-- [ ] T016 [P] Add responsive application shell, navigation, loading, error, and explicit empty-state components in `src/components/`
-- [ ] T017 Seed a validated source snapshot, initial active rarity configuration, base-country card records, and an administrator account whose initial credential is supplied through a one-time environment variable or setup flow and bcrypt-hashed before persistence, without committing secrets, in `prisma/seed/`
-- [ ] T018 [P] Add foundational database constraint, server-boundary, conditional ownership, and stock-invariant tests proving base cards have null `card_instance_id`, special cards require it, assigned instances are unique, and stock never becomes negative in `tests/integration/foundation.test.ts` and `tests/integration/card-invariants.test.ts`
+- [X] T007 Define the User, DataSnapshot, Country, Card, CardInstance, UserCard, BoosterOpening, and RarityConfig models with all required enums, foreign keys, unique constraints, and stock invariants in `prisma/schema.prisma`
+- [X] T008 Create and verify the initial PostgreSQL migration for the WorldCards schema in `prisma/migrations/`
+- [X] T009 [P] Create shared domain enums, API response types, and public card/identity types in `src/types/domain.ts`
+- [X] T010 [P] Implement server-only database client lifecycle and transaction helpers in `src/lib/db/client.ts` and `src/lib/db/transactions.ts`
+- [X] T011 [P] Implement environment parsing with explicit startup errors for missing database and session configuration in `src/lib/config.ts`
+- [X] T012 [P] Implement Zod schemas and explicit client-safe validation error mapping in `src/lib/validation/`
+- [X] T013 [P] Implement server-managed session creation, lookup, invalidation, and cookie handling in `src/lib/auth/session.ts`
+- [X] T014 [P] Implement role guards and authenticated-user helpers that never expose password hashes in `src/lib/auth/guards.ts`
+- [X] T015 [P] Implement shared API error responses, request logging, and no-sensitive-data serialization in `src/lib/api/errors.ts` and `src/lib/api/serializers.ts`
+- [X] T016 [P] Add responsive application shell, navigation, loading, error, and explicit empty-state components in `src/components/`
+- [X] T017 Seed a validated source snapshot, initial active rarity configuration, base-country card records, and an administrator account whose initial credential is supplied through a one-time environment variable or setup flow and bcrypt-hashed before persistence, without committing secrets, in `prisma/seed/`
+- [X] T018 [P] Add foundational database constraint, server-boundary, conditional ownership, and stock-invariant tests proving base cards have null `card_instance_id`, special cards require it, assigned instances are unique, and stock never becomes negative in `tests/integration/foundation.test.ts` and `tests/integration/card-invariants.test.ts`
 
 **Checkpoint**: Database schema, server-only boundaries, validation, sessions, and shared UI infrastructure are ready for story work.
 
@@ -53,20 +53,20 @@ description: "Implementation task list for WorldCards"
 
 ### Tests for User Story 1
 
-- [ ] T019 [P] [US1] Add authentication contract tests for register, sign-in, and sign-out responses in `tests/integration/auth-contract.test.ts`
-- [ ] T020 [P] [US1] Add authentication boundary and collection-isolation tests for duplicate emails, invalid credentials, and cross-user access in `tests/integration/auth-boundaries.test.ts`
-- [ ] T021 [P] [US1] Add browser smoke coverage for registration, sign-in, sign-out, and empty collection recovery in `tests/e2e/auth-collection.spec.ts`
+- [X] T019 [P] [US1] Add authentication contract tests for register, sign-in, and sign-out responses in `tests/integration/auth-contract.test.ts`
+- [X] T020 [P] [US1] Add authentication boundary and collection-isolation tests for duplicate emails, invalid credentials, and cross-user access in `tests/integration/auth-boundaries.test.ts`
+- [X] T021 [P] [US1] Add browser smoke coverage for registration, sign-in, sign-out, and empty collection recovery in `tests/e2e/auth-collection.spec.ts`
 
 ### Implementation for User Story 1
 
-- [ ] T022 [P] [US1] Implement bcrypt password hashing and generic credential verification in `src/lib/auth/passwords.ts`
-- [ ] T023 [US1] Implement email-only registration, duplicate-email handling, and public identity creation in `src/lib/auth/register.ts`
-- [ ] T024 [US1] Implement sign-in and sign-out services using server-managed sessions in `src/lib/auth/sign-in.ts`
-- [ ] T025 [US1] Implement `POST /api/auth/register` in `src/app/api/auth/register/route.ts` according to `contracts/auth.md`
-- [ ] T026 [US1] Implement `POST /api/auth/sign-in` in `src/app/api/auth/sign-in/route.ts` with generic invalid-credential errors
-- [ ] T027 [US1] Implement `POST /api/auth/sign-out` in `src/app/api/auth/sign-out/route.ts`
-- [ ] T028 [US1] Implement authenticated collection loading scoped to the current user in `src/lib/cards/collection.ts` and `src/app/api/collection/route.ts`
-- [ ] T029 [US1] Build registration, sign-in, and empty collection pages in `src/app/(auth)/` and `src/app/(player)/collection/page.tsx`
+- [X] T022 [P] [US1] Implement bcrypt password hashing and generic credential verification in `src/lib/auth/passwords.ts`
+- [X] T023 [US1] Implement email-only registration, duplicate-email handling, and public identity creation in `src/lib/auth/register.ts`
+- [X] T024 [US1] Implement sign-in and sign-out services using server-managed sessions in `src/lib/auth/sign-in.ts`
+- [X] T025 [US1] Implement `POST /api/auth/register` in `src/app/api/auth/register/route.ts` according to `contracts/auth.md`
+- [X] T026 [US1] Implement `POST /api/auth/sign-in` in `src/app/api/auth/sign-in/route.ts` with generic invalid-credential errors
+- [X] T027 [US1] Implement `POST /api/auth/sign-out` in `src/app/api/auth/sign-out/route.ts`
+- [X] T028 [US1] Implement authenticated collection loading scoped to the current user in `src/lib/cards/collection.ts` and `src/app/api/collection/route.ts`
+- [X] T029 [US1] Build registration, sign-in, and empty collection pages in `src/app/(auth)/` and `src/app/(player)/collection/page.tsx`
 
 **Checkpoint**: US1 is independently usable and proves identity, authorization, persistence, and sensitive-data protections.
 
@@ -80,18 +80,18 @@ description: "Implementation task list for WorldCards"
 
 ### Tests for User Story 2
 
-- [ ] T030 [P] [US2] Add unit tests for configurable population thresholds, invalid populations, rarity boundaries, and probability totals in `tests/unit/rarity.test.ts`
-- [ ] T031 [P] [US2] Add unit tests for server-only random rarity selection and fixed five-card bundle behavior in `tests/unit/draw-rules.test.ts`
-- [ ] T032 [P] [US2] Add booster contract and idempotency integration tests for `POST /api/boosters/open` in `tests/integration/booster-contract.test.ts`
-- [ ] T033 [P] [US2] Add browser smoke coverage for opening a booster and displaying the received cards in `tests/e2e/booster.spec.ts`
+- [X] T030 [P] [US2] Add unit tests for configurable population thresholds, invalid populations, rarity boundaries, and probability totals in `tests/unit/rarity.test.ts`
+- [X] T031 [P] [US2] Add unit tests for server-only random rarity selection and fixed five-card bundle behavior in `tests/unit/draw-rules.test.ts`
+- [X] T032 [P] [US2] Add booster contract and idempotency integration tests for `POST /api/boosters/open` in `tests/integration/booster-contract.test.ts`
+- [X] T033 [P] [US2] Add browser smoke coverage for opening a booster and displaying the received cards in `tests/e2e/booster.spec.ts`
 
 ### Implementation for User Story 2
 
-- [ ] T034 [P] [US2] Implement active rarity configuration loading and population-to-rarity calculation in `src/lib/cards/rarity.ts`
-- [ ] T035 [P] [US2] Implement server-only probability sampling and catalog candidate selection in `src/lib/cards/draw-rules.ts`
-- [ ] T036 [US2] Implement booster opening transaction creation, five-card assignment, rarity snapshots, completion state, and idempotency handling in `src/lib/cards/booster.ts`
-- [ ] T037 [US2] Implement `POST /api/boosters/open` with authenticated-user enforcement and the exact five-card response shape in `src/app/api/boosters/open/route.ts`
-- [ ] T038 [US2] Build the booster-opening UI and result view without accepting card IDs, rarity, random values, or stock changes from the client in `src/app/(player)/booster/page.tsx` and `src/components/booster/`
+- [X] T034 [P] [US2] Implement active rarity configuration loading and population-to-rarity calculation in `src/lib/cards/rarity.ts`
+- [X] T035 [P] [US2] Implement server-only probability sampling and catalog candidate selection in `src/lib/cards/draw-rules.ts`
+- [X] T036 [US2] Implement booster opening transaction creation, five-card assignment, rarity snapshots, completion state, and idempotency handling in `src/lib/cards/booster.ts`
+- [X] T037 [US2] Implement `POST /api/boosters/open` with authenticated-user enforcement and the exact five-card response shape in `src/app/api/boosters/open/route.ts`
+- [X] T038 [US2] Build the booster-opening UI and result view without accepting card IDs, rarity, random values, or stock changes from the client in `src/app/(player)/booster/page.tsx` and `src/components/booster/`
 
 **Checkpoint**: US2 is independently testable for normal draws, unauthorized requests, idempotency, rarity snapshots, and server-only draw control.
 
@@ -105,17 +105,17 @@ description: "Implementation task list for WorldCards"
 
 ### Tests for User Story 3
 
-- [ ] T039 [P] [US3] Add integration tests for special-card instance creation, assignment, exhausted stock, and rollback when a five-card bundle cannot complete in `tests/integration/special-stock.test.ts`
-- [ ] T040 [P] [US3] Add concurrent transaction tests proving conditional stock decrement and unique physical-copy assignment in `tests/integration/concurrent-stock.test.ts`
-- [ ] T041 [P] [US3] Add regression tests proving assigned rarity snapshots and owned special instances remain stable after catalog updates in `tests/integration/historical-snapshots.test.ts`
+- [X] T039 [P] [US3] Add integration tests for special-card instance creation, assignment, exhausted stock, and rollback when a five-card bundle cannot complete in `tests/integration/special-stock.test.ts`
+- [X] T040 [P] [US3] Add concurrent transaction tests proving conditional stock decrement and unique physical-copy assignment in `tests/integration/concurrent-stock.test.ts`
+- [X] T041 [P] [US3] Add regression tests proving assigned rarity snapshots and owned special instances remain stable after catalog updates in `tests/integration/historical-snapshots.test.ts`
 
 ### Implementation for User Story 3
 
-- [ ] T042 [US3] Implement special-card physical-copy creation and availability queries in `src/lib/cards/special-stock.ts`
-- [ ] T043 [US3] Extend booster allocation to lock/select one unassigned `CardInstance`, decrement stock atomically, and roll back the whole opening on allocation failure in `src/lib/cards/booster.ts`
-- [ ] T044 [US3] Enforce database-level uniqueness and non-negative stock checks for special instances in `prisma/schema.prisma` and `prisma/migrations/`
-- [ ] T045 [US3] Update booster response and collection serialization to expose only ownership-safe instance identifiers and never duplicate a physical copy in `src/lib/api/serializers.ts`
-- [ ] T046 [US3] Add unavailable/exhausted special-card messaging and failed-opening recovery to `src/components/booster/` and `src/app/(player)/booster/page.tsx`
+- [X] T042 [US3] Implement special-card physical-copy creation and availability queries in `src/lib/cards/special-stock.ts`
+- [X] T043 [US3] Extend booster allocation to lock/select one unassigned `CardInstance`, decrement stock atomically, and roll back the whole opening on allocation failure in `src/lib/cards/booster.ts`
+- [X] T044 [US3] Enforce database-level uniqueness and non-negative stock checks for special instances in `prisma/schema.prisma` and `prisma/migrations/`
+- [X] T045 [US3] Update booster response and collection serialization to expose only ownership-safe instance identifiers and never duplicate a physical copy in `src/lib/api/serializers.ts`
+- [X] T046 [US3] Add unavailable/exhausted special-card messaging and failed-opening recovery to `src/components/booster/` and `src/app/(player)/booster/page.tsx`
 
 **Checkpoint**: US3 is independently verified against exhaustion, rollback, concurrency, and historical ownership behavior.
 
@@ -129,14 +129,14 @@ description: "Implementation task list for WorldCards"
 
 ### Tests for User Story 4
 
-- [ ] T047 [P] [US4] Add collection query tests for combinable type, rarity, continent, and partial-name filters in `tests/integration/collection-filters.test.ts`
-- [ ] T048 [P] [US4] Add browser smoke coverage for filter combinations, search, empty collection, and no-result states in `tests/e2e/collection-filters.spec.ts`
+- [X] T047 [P] [US4] Add collection query tests for combinable type, rarity, continent, and partial-name filters in `tests/integration/collection-filters.test.ts`
+- [X] T048 [P] [US4] Add browser smoke coverage for filter combinations, search, empty collection, and no-result states in `tests/e2e/collection-filters.spec.ts`
 
 ### Implementation for User Story 4
 
-- [ ] T049 [US4] Implement validated collection query parsing and parameterized filtering in `src/lib/cards/collection.ts`
-- [ ] T050 [US4] Extend `GET /api/collection` to return stored rarity snapshots and display fields for only the authenticated user in `src/app/api/collection/route.ts`
-- [ ] T051 [US4] Build responsive collection filter controls, card grid, search state, and no-result state in `src/components/collection/` and `src/app/(player)/collection/page.tsx`
+- [X] T049 [US4] Implement validated collection query parsing and parameterized filtering in `src/lib/cards/collection.ts`
+- [X] T050 [US4] Extend `GET /api/collection` to return stored rarity snapshots and display fields for only the authenticated user in `src/app/api/collection/route.ts`
+- [X] T051 [US4] Build responsive collection filter controls, card grid, search state, and no-result state in `src/components/collection/` and `src/app/(player)/collection/page.tsx`
 
 **Checkpoint**: US4 is independently testable through the collection API and browser UI.
 
@@ -150,16 +150,16 @@ description: "Implementation task list for WorldCards"
 
 ### Tests for User Story 5
 
-- [ ] T052 [P] [US5] Add card-detail and availability contract tests for `GET /api/cards/{cardId}` in `tests/integration/card-details.test.ts`
-- [ ] T053 [P] [US5] Add progress-count tests for base cards, distinct special copies, exhausted specials, and unavailable historical records in `tests/integration/progress.test.ts`
-- [ ] T054 [P] [US5] Add browser smoke coverage for details navigation and progress display in `tests/e2e/card-details-progress.spec.ts`
+- [X] T052 [P] [US5] Add card-detail and availability contract tests for `GET /api/cards/{cardId}` in `tests/integration/card-details.test.ts`
+- [X] T053 [P] [US5] Add progress-count tests for base cards, distinct special copies, exhausted specials, and unavailable historical records in `tests/integration/progress.test.ts`
+- [X] T054 [P] [US5] Add browser smoke coverage for details navigation and progress display in `tests/e2e/card-details-progress.spec.ts`
 
 ### Implementation for User Story 5
 
-- [ ] T055 [P] [US5] Implement card-detail and availability queries that preserve inactive owned cards in `src/lib/cards/details.ts`
-- [ ] T056 [P] [US5] Implement owned-versus-total progress calculation with version-1 special-copy rules in `src/lib/cards/progress.ts`
-- [ ] T057 [US5] Implement `GET /api/cards/{cardId}` and `GET /api/collection/progress` in `src/app/api/cards/[cardId]/route.ts` and `src/app/api/collection/progress/route.ts`
-- [ ] T058 [US5] Build card detail, availability, and progress views in `src/app/(player)/cards/[cardId]/page.tsx`, `src/components/cards/`, and `src/components/progress/`
+- [X] T055 [P] [US5] Implement card-detail and availability queries that preserve inactive owned cards in `src/lib/cards/details.ts`
+- [X] T056 [P] [US5] Implement owned-versus-total progress calculation with version-1 special-copy rules in `src/lib/cards/progress.ts`
+- [X] T057 [US5] Implement `GET /api/cards/{cardId}` and `GET /api/collection/progress` in `src/app/api/cards/[cardId]/route.ts` and `src/app/api/collection/progress/route.ts`
+- [X] T058 [US5] Build card detail, availability, and progress views in `src/app/(player)/cards/[cardId]/page.tsx`, `src/components/cards/`, and `src/components/progress/`
 
 **Checkpoint**: US5 is independently usable for card comprehension, availability, and progress tracking.
 
@@ -173,15 +173,15 @@ description: "Implementation task list for WorldCards"
 
 ### Tests for User Story 6
 
-- [ ] T059 [P] [US6] Add administrator special-card contract tests for create and patch requests in `tests/integration/admin-special-cards.test.ts`
-- [ ] T060 [P] [US6] Add authorization and assigned-stock validation tests for player requests, invalid historical fields, and stock below assigned copies in `tests/integration/admin-authorization.test.ts`
-- [ ] T061 [P] [US6] Add browser smoke coverage for administrator create/edit and rejected player access in `tests/e2e/admin-special-cards.spec.ts`
+- [X] T059 [P] [US6] Add administrator special-card contract tests for create and patch requests in `tests/integration/admin-special-cards.test.ts`
+- [X] T060 [P] [US6] Add authorization and assigned-stock validation tests for player requests, invalid historical fields, and stock below assigned copies in `tests/integration/admin-authorization.test.ts`
+- [X] T061 [P] [US6] Add browser smoke coverage for administrator create/edit and rejected player access in `tests/e2e/admin-special-cards.spec.ts`
 
 ### Implementation for User Story 6
 
-- [ ] T062 [US6] Implement validated special-card create/update services with source attribution and assigned-copy stock checks in `src/lib/cards/admin-special-cards.ts`
-- [ ] T063 [US6] Implement `POST /api/admin/special-cards` and `PATCH /api/admin/special-cards/[cardId]` with administrator-only guards in `src/app/api/admin/special-cards/route.ts` and `src/app/api/admin/special-cards/[cardId]/route.ts`
-- [ ] T064 [US6] Build administrator special-card catalog and edit forms with explicit validation errors in `src/app/admin/special-cards/` and `src/components/admin/`
+- [X] T062 [US6] Implement validated special-card create/update services with source attribution and assigned-copy stock checks in `src/lib/cards/admin-special-cards.ts`
+- [X] T063 [US6] Implement `POST /api/admin/special-cards` and `PATCH /api/admin/special-cards/[cardId]` with administrator-only guards in `src/app/api/admin/special-cards/route.ts` and `src/app/api/admin/special-cards/[cardId]/route.ts`
+- [X] T064 [US6] Build administrator special-card catalog and edit forms with explicit validation errors in `src/app/admin/special-cards/` and `src/components/admin/`
 
 **Checkpoint**: US6 is independently testable for administrator workflows, authorization, attribution, and stock invariants.
 
@@ -189,17 +189,17 @@ description: "Implementation task list for WorldCards"
 
 **Purpose**: Validate the complete feature against performance, accessibility, traceability, source compliance, and the documented quickstart.
 
-- [ ] T065 [P] Add end-to-end regression coverage for the complete register-to-booster-to-filter-to-detail journey in `tests/e2e/worldcards-journey.spec.ts`
-- [ ] T066 [P] Add accessibility checks for authentication, collection, booster, detail, and admin views in `tests/e2e/accessibility.spec.ts`
-- [ ] T067 [P] Add performance checks for 20 concurrent users issuing 100 collection/card-detail requests and 50 successful booster openings, asserting p95 collection/card-detail latency <= 1 second and p95 booster latency <= 2 seconds in `tests/integration/performance.test.ts`
-- [ ] T068 [P] Add data-import validation, checksum/version recording, source URL/retrieval date/license/terms/attribution retention, and deterministic Country, Capital, and Flag card generation from a validated snapshot in `src/lib/data-import/` and `prisma/seed/`
-- [ ] T069 [P] Document API behavior, data-source attribution, rarity configuration, and implementation deviations in `README.md` and `docs/`
-- [ ] T070 Run the scenarios in `specs/001-worldcards/quickstart.md`, the full lint/type-check/test suite, and verify no version-1 feature adds trading, leaderboards, or duplicate conversion
-- [ ] T071 Review the implementation against `.specify/memory/constitution.md`, update `specs/001-worldcards/plan.md` for any justified deviations, and record the final traceability evidence in `specs/001-worldcards/`
-- [ ] T072 [P] Add integration tests for increasing and decreasing `stock_total`, creation/removal of only unassigned physical instances, recomputed `stock_remaining`, and rejection below assigned copies in `tests/integration/admin-stock-adjustments.test.ts`
-- [ ] T073 [US6] Implement transactional stock-total adjustment semantics, including creation/removal of unassigned instances and rejection below assigned copies, in `src/lib/cards/admin-special-cards.ts`
-- [ ] T074 [P] Create a requirements-to-tests traceability matrix covering FR-001 through FR-022, buildable SC-002 through SC-008, and the generation prompt reference in `specs/001-worldcards/traceability.md`
-- [ ] T075 [P] Document the exact source evidence required for each imported field, including source URL, retrieval date, checksum/version, license/terms reference, and attribution text, in `docs/data-sources.md`
+- [X] T065 [P] Add end-to-end regression coverage for the complete register-to-booster-to-filter-to-detail journey in `tests/e2e/worldcards-journey.spec.ts`
+- [X] T066 [P] Add accessibility checks for authentication, collection, booster, detail, and admin views in `tests/e2e/accessibility.spec.ts`
+- [X] T067 [P] Add performance checks for 20 concurrent users issuing 100 collection/card-detail requests and 50 successful booster openings, asserting p95 collection/card-detail latency <= 1 second and p95 booster latency <= 2 seconds in `tests/integration/performance.test.ts`
+- [X] T068 [P] Add data-import validation, checksum/version recording, source URL/retrieval date/license/terms/attribution retention, and deterministic Country, Capital, and Flag card generation from a validated snapshot in `src/lib/data-import/` and `prisma/seed/`
+- [X] T069 [P] Document API behavior, data-source attribution, rarity configuration, and implementation deviations in `README.md` and `docs/`
+- [X] T070 Run the scenarios in `specs/001-worldcards/quickstart.md`, the full lint/type-check/test suite, and verify no version-1 feature adds trading, leaderboards, or duplicate conversion
+- [X] T071 Review the implementation against `.specify/memory/constitution.md`, update `specs/001-worldcards/plan.md` for any justified deviations, and record the final traceability evidence in `specs/001-worldcards/`
+- [X] T072 [P] Add integration tests for increasing and decreasing `stock_total`, creation/removal of only unassigned physical instances, recomputed `stock_remaining`, and rejection below assigned copies in `tests/integration/admin-stock-adjustments.test.ts`
+- [X] T073 [US6] Implement transactional stock-total adjustment semantics, including creation/removal of unassigned instances and rejection below assigned copies, in `src/lib/cards/admin-special-cards.ts`
+- [X] T074 [P] Create a requirements-to-tests traceability matrix covering FR-001 through FR-022, buildable SC-002 through SC-008, and the generation prompt reference in `specs/001-worldcards/traceability.md`
+- [X] T075 [P] Document the exact source evidence required for each imported field, including source URL, retrieval date, checksum/version, license/terms reference, and attribution text, in `docs/data-sources.md`
 
 ## Dependencies & Execution Order
 

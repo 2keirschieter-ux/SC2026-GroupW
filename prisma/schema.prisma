@@ -1,0 +1,161 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  player
+  admin
+}
+
+enum CardType {
+  country
+  capital
+  flag
+  special
+}
+
+enum Rarity {
+  common
+  uncommon
+  rare
+  epic
+  legendary
+  special
+}
+
+enum HistoricalKind {
+  former_flag
+  former_capital
+  former_name
+}
+
+enum SnapshotStatus {
+  validated
+  rejected
+  superseded
+}
+
+enum OpeningStatus {
+  pending
+  completed
+  failed
+}
+
+model User {
+  id           String           @id @default(uuid()) @db.Uuid
+  email        String           @unique
+  passwordHash String
+  role         Role             @default(player)
+  createdAt    DateTime         @default(now())
+  cards        UserCard[]
+  openings     BoosterOpening[]
+  sessions     Session[]
+}
+
+model Session {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model DataSnapshot {
+  id               String         @id @default(uuid()) @db.Uuid
+  sourceName       String
+  retrievedAt      DateTime
+  sourceVersion    String
+  licenseReference String
+  status           SnapshotStatus
+  countries        Country[]
+}
+
+model Country {
+  id               String       @id @default(uuid()) @db.Uuid
+  externalCode     String       @unique
+  name             String
+  population       Int
+  continent        String
+  currentCapital   String?
+  currentFlag      String
+  sourceSnapshotId String       @db.Uuid
+  snapshot         DataSnapshot @relation(fields: [sourceSnapshotId], references: [id])
+  cards            Card[]
+}
+
+model Card {
+  id                  String          @id @default(uuid()) @db.Uuid
+  cardType            CardType
+  countryId           String          @db.Uuid
+  name                String
+  rarity              Rarity
+  rarityConfigVersion String
+  description         String          @default("")
+  historicalKind      HistoricalKind?
+  stockTotal          Int?
+  stockRemaining      Int?
+  sourceReference     String?
+  active              Boolean         @default(true)
+  country             Country         @relation(fields: [countryId], references: [id])
+  instances           CardInstance[]
+  owned               UserCard[]
+
+  @@index([cardType, active, rarity])
+}
+
+model CardInstance {
+  id           String    @id @default(uuid()) @db.Uuid
+  cardId       String    @db.Uuid
+  serialNumber String    @unique
+  assignedAt   DateTime?
+  card         Card      @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  owned        UserCard?
+
+  @@index([cardId, assignedAt])
+}
+
+model UserCard {
+  id               String         @id @default(uuid()) @db.Uuid
+  userId           String         @db.Uuid
+  cardId           String         @db.Uuid
+  cardInstanceId   String?        @unique @db.Uuid
+  raritySnapshot   Rarity
+  obtainedAt       DateTime       @default(now())
+  boosterOpeningId String         @db.Uuid
+  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  card             Card           @relation(fields: [cardId], references: [id])
+  instance         CardInstance?  @relation(fields: [cardInstanceId], references: [id])
+  opening          BoosterOpening @relation(fields: [boosterOpeningId], references: [id])
+
+  @@index([userId, cardId])
+}
+
+model BoosterOpening {
+  id             String        @id @default(uuid()) @db.Uuid
+  userId         String        @db.Uuid
+  idempotencyKey String
+  status         OpeningStatus
+  cardCount      Int
+  createdAt      DateTime      @default(now())
+  completedAt    DateTime?
+  user           User          @relation(fields: [userId], references: [id])
+  cards          UserCard[]
+
+  @@unique([userId, idempotencyKey])
+}
+
+model RarityConfig {
+  version               String  @id
+  commonMaxPopulation   Int
+  uncommonMaxPopulation Int
+  rareMaxPopulation     Int
+  epicMaxPopulation     Int
+  probabilities         Json
+  active                Boolean @default(false)
+}

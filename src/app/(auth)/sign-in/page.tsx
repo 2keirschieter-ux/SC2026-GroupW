@@ -1,0 +1,3 @@
+'use client';
+import { useState } from 'react';
+export default function SignIn(){const [error,setError]=useState('');async function submit(e:React.FormEvent<HTMLFormElement>){e.preventDefault();const r=await fetch('/api/auth/sign-in',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(Object.fromEntries(new FormData(e.currentTarget)))});if(r.ok)location.href='/collection';else setError('Invalid credentials')}return <form onSubmit={submit}><h1>Sign in</h1><input name="email" type="email" required/><input name="password" type="password" required/><button>Sign in</button><p>{error}</p></form>}

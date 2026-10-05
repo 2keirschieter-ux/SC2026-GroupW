@@ -1,0 +1,3 @@
+'use client';
+import { useState } from 'react';
+export default function Register(){const [error,setError]=useState(''); async function submit(e:React.FormEvent<HTMLFormElement>){e.preventDefault();const data=Object.fromEntries(new FormData(e.currentTarget));const r=await fetch('/api/auth/register',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(data)});if(r.ok) location.href='/collection'; else setError((await r.json()).error?.message||'Registration failed')}return <form onSubmit={submit}><h1>Create account</h1><input name="email" type="email" required placeholder="Email"/><input name="password" type="password" required minLength={8} placeholder="Password"/><button>Register</button><p>{error}</p></form>}

@@ -1,0 +1,53 @@
+'use client';
+import { useState } from 'react';
+type BoosterCard = { cardId: string; instanceId: string | null; type: string; name: string; rarity: string };
+
+export default function Booster() {
+  const [cards, setCards] = useState<BoosterCard[]>([]);
+  const [error, setError] = useState('');
+  const [opening, setOpening] = useState(false);
+
+  async function open() {
+    setOpening(true);
+    setError('');
+    try {
+      const response = await fetch('/api/boosters/open', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ idempotencyKey: crypto.randomUUID() }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        setError(data.error?.code === 'STOCK_EXHAUSTED'
+          ? 'This booster could not be completed because a special card is unavailable. No cards were added.'
+          : data.error?.message || 'Unable to open booster');
+        setCards([]);
+        return;
+      }
+      setCards(data.cards);
+    } catch {
+      setError('The booster service is temporarily unavailable. Please try again.');
+      setCards([]);
+    } finally {
+      setOpening(false);
+    }
+  }
+
+  return (
+    <>
+      <h1>Open a booster</h1>
+      <button onClick={open} disabled={opening}>
+        {opening ? 'Opening...' : 'Open booster'}
+      </button>
+      {error && <p role="alert">{error}</p>}
+      <div className="grid">
+        {cards.map((card) => (
+          <article className="card" key={card.instanceId || card.cardId}>
+            <h2>{card.name}</h2>
+            <p>{card.type} · {card.rarity}</p>
+          </article>
+        ))}
+      </div>
+    </>
+  );
+}
