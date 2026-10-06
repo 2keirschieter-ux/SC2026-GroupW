@@ -83,12 +83,9 @@ async function main() {
         sourceSnapshotId: snapshot.id,
       },
     });
-    const [countryImage, capitalImage] = await Promise.all([
-      fetchWikimediaImage(name, 'country'),
-      capital ? fetchWikimediaImage(capital, 'capital') : Promise.resolve(null),
-    ]);
-    const cards: Array<['country' | 'capital' | 'flag', string, typeof countryImage]> = [
-      ['country', name, countryImage],
+    const capitalImage = capital ? await fetchWikimediaImage(capital, 'capital') : null;
+    const cards: Array<['country' | 'capital' | 'flag', string, typeof capitalImage]> = [
+      ['country', name, null],
       ['flag', `${name} flag`, null],
     ];
     if (capital) cards.splice(1, 0, ['capital', capital, capitalImage]);

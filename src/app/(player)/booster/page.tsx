@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { CardVisual } from '@/components/card-visual';
-type BoosterCard = { cardId: string; instanceId: string | null; type: 'country' | 'capital' | 'flag' | 'special'; name: string; rarity: string; continent?: string; flagUrl?: string; imageUrl?: string | null; imageCredit?: string | null };
+type BoosterCard = { cardId: string; instanceId: string | null; type: 'country' | 'capital' | 'flag' | 'special'; name: string; rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'special'; countryCode?: string; continent?: string; flagUrl?: string; imageUrl?: string | null; imageCredit?: string | null };
 
 export default function Booster() {
   const [cards, setCards] = useState<BoosterCard[]>([]);
@@ -44,7 +44,7 @@ export default function Booster() {
       <div className="grid">
         {cards.map((card) => (
           <article className={`card card--${card.rarity}`} key={card.instanceId || card.cardId}>
-            <CardVisual type={card.type} continent={card.continent} flagUrl={card.flagUrl} imageUrl={card.imageUrl} imageCredit={card.imageCredit} countryName={card.name} />
+            <CardVisual type={card.type} rarity={card.rarity} countryCode={card.countryCode} continent={card.continent} flagUrl={card.flagUrl} imageUrl={card.imageUrl} imageCredit={card.imageCredit} countryName={card.name} />
             <h2>{card.name}</h2>
             <p>{card.type} · {card.rarity}</p>
           </article>

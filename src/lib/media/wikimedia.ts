@@ -27,13 +27,43 @@ async function searchWikimedia(query: string): Promise<SearchPage | null> {
     iiprop: 'url|mime|extmetadata',
     iiurlwidth: '640',
   });
-  const response = await fetch(`${API_URL}?${params}`, {
-    headers: { 'User-Agent': USER_AGENT },
-    signal: AbortSignal.timeout(8000),
-  });
-  if (!response.ok) return null;
-  const data = await response.json() as SearchResponse;
-  return Object.values(data.query?.pages ?? {}).find(isUsable) ?? null;
+  const url = `${API_URL}?${params}`;
+  console.log(`[Wikimedia] Search query: "${query}"`);
+  console.log(`[Wikimedia] Request URL: ${url}`);
+
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      headers: { 'User-Agent': USER_AGENT },
+      signal: AbortSignal.timeout(8000),
+    });
+  } catch (error) {
+    console.error(`[Wikimedia] Fetch error for "${query}":`, error);
+    return null;
+  }
+
+  const body = await response.text();
+  console.log(`[Wikimedia] HTTP status for "${query}": ${response.status} ${response.statusText}`);
+  if (!response.ok) {
+    console.error(`[Wikimedia] Raw error response for "${query}": ${body}`);
+    return null;
+  }
+
+  let data: SearchResponse;
+  try {
+    data = JSON.parse(body) as SearchResponse;
+  } catch (error) {
+    console.error(`[Wikimedia] JSON parse error for "${query}":`, error);
+    console.error(`[Wikimedia] Raw response body for "${query}": ${body}`);
+    return null;
+  }
+
+  const page = Object.values(data.query?.pages ?? {}).find(isUsable) ?? null;
+  if (!page) {
+    console.warn(`[Wikimedia] No usable image for "${query}"`);
+    console.warn(`[Wikimedia] Raw response body for "${query}": ${body}`);
+  }
+  return page;
 }
 
 export async function fetchWikimediaImage(subject: string, kind: 'country' | 'capital') {
@@ -59,7 +89,8 @@ export async function fetchWikimediaImage(subject: string, kind: 'country' | 'ca
       imageUrl,
       imageCredit: `${title} — ${artist} — ${license} (Wikimedia Commons)`,
     };
-  } catch {
+  } catch (error) {
+    console.error(`[Wikimedia] Failed to fetch ${kind} image for "${subject}":`, error);
     return null;
   }
 }

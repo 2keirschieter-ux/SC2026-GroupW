@@ -22,6 +22,12 @@ describe('rarity', () => {
     expect(rarityForPopulation(10_000_001, c)).toBe('legendary');
   });
 
+  it('never assigns the explicit special tier from population', () => {
+    const results = [1, 10_000, 100_001, 1_000_001, 10_000_001].map((population) => rarityForPopulation(population, c));
+    expect(results).not.toContain('special');
+    expect(results).toEqual(['common', 'common', 'rare', 'epic', 'legendary']);
+  });
+
   it('rejects invalid population, thresholds, and probabilities', () => {
     expect(() => rarityForPopulation(0, c)).toThrow('INVALID_POPULATION');
     expect(() => rarityForPopulation(1, { ...c, rareMaxPopulation: 50 })).toThrow('INVALID_THRESHOLDS');

@@ -1,5 +1,7 @@
 import type { Rarity } from '@/types/domain';
 
+export type PopulationRarity = Exclude<Rarity, 'special'>;
+
 export type RarityConfig = {
   commonMaxPopulation: number;
   uncommonMaxPopulation: number;
@@ -15,7 +17,7 @@ export function validateThresholds(c: RarityConfig) {
   }
 }
 
-export function rarityForPopulation(population: number, c: RarityConfig): Rarity {
+export function rarityForPopulation(population: number, c: RarityConfig): PopulationRarity {
   if (!Number.isInteger(population) || population <= 0) throw new Error('INVALID_POPULATION');
   validateThresholds(c);
   if (population <= c.commonMaxPopulation) return 'common';
