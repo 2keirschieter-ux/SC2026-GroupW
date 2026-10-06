@@ -52,13 +52,20 @@ async function main() {
   const countries = countryData.map(normalizeCountry);
   const cfg = await db.rarityConfig.upsert({
     where: { version: 'v1' },
-    update: { active: true, probabilities: seedProbabilities },
+    update: {
+      commonMaxPopulation: 10_000,
+      uncommonMaxPopulation: 100_000,
+      rareMaxPopulation: 1_000_000,
+      epicMaxPopulation: 10_000_000,
+      active: true,
+      probabilities: seedProbabilities,
+    },
     create: {
       version: 'v1',
-      commonMaxPopulation: 10000000,
-      uncommonMaxPopulation: 1000000,
-      rareMaxPopulation: 100000,
-      epicMaxPopulation: 10000,
+      commonMaxPopulation: 10_000,
+      uncommonMaxPopulation: 100_000,
+      rareMaxPopulation: 1_000_000,
+      epicMaxPopulation: 10_000_000,
       probabilities: seedProbabilities,
       active: true,
     },

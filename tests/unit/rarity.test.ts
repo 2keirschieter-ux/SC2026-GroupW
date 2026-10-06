@@ -1,4 +1,31 @@
 import { describe, expect, it } from 'vitest';
-import { rarityForPopulation, validateProbabilities } from '@/lib/cards/rarity';
-const c={commonMaxPopulation:10000000,uncommonMaxPopulation:1000000,rareMaxPopulation:100000,epicMaxPopulation:10000,probabilities:{common:.5,uncommon:.2,rare:.15,epic:.1,legendary:.05}};
-describe('rarity',()=>{it('makes the largest populations the rarest',()=>{expect(rarityForPopulation(1,c)).toBe('common');expect(rarityForPopulation(10000,c)).toBe('common');expect(rarityForPopulation(10001,c)).toBe('uncommon');expect(rarityForPopulation(100000,c)).toBe('uncommon');expect(rarityForPopulation(100001,c)).toBe('rare');expect(rarityForPopulation(1000000,c)).toBe('rare');expect(rarityForPopulation(1000001,c)).toBe('epic');expect(rarityForPopulation(10000000,c)).toBe('epic');expect(rarityForPopulation(10000001,c)).toBe('legendary')});it('rejects invalid population and probabilities',()=>{expect(()=>rarityForPopulation(0,c)).toThrow();expect(()=>validateProbabilities({common:2})).toThrow()})});
+import { rarityForPopulation, validateProbabilities, validateThresholds } from '@/lib/cards/rarity';
+
+const c = {
+  commonMaxPopulation: 10_000,
+  uncommonMaxPopulation: 100_000,
+  rareMaxPopulation: 1_000_000,
+  epicMaxPopulation: 10_000_000,
+  probabilities: { common: .5, uncommon: .2, rare: .15, epic: .1, legendary: .05 },
+};
+
+describe('rarity', () => {
+  it('makes the largest populations the rarest', () => {
+    expect(rarityForPopulation(1, c)).toBe('common');
+    expect(rarityForPopulation(10_000, c)).toBe('common');
+    expect(rarityForPopulation(10_001, c)).toBe('uncommon');
+    expect(rarityForPopulation(100_000, c)).toBe('uncommon');
+    expect(rarityForPopulation(100_001, c)).toBe('rare');
+    expect(rarityForPopulation(1_000_000, c)).toBe('rare');
+    expect(rarityForPopulation(1_000_001, c)).toBe('epic');
+    expect(rarityForPopulation(10_000_000, c)).toBe('epic');
+    expect(rarityForPopulation(10_000_001, c)).toBe('legendary');
+  });
+
+  it('rejects invalid population, thresholds, and probabilities', () => {
+    expect(() => rarityForPopulation(0, c)).toThrow('INVALID_POPULATION');
+    expect(() => rarityForPopulation(1, { ...c, rareMaxPopulation: 50 })).toThrow('INVALID_THRESHOLDS');
+    expect(() => validateThresholds({ ...c, epicMaxPopulation: 1.5 })).toThrow('INVALID_THRESHOLDS');
+    expect(() => validateProbabilities({ common: 2 })).toThrow('INVALID_PROBABILITIES');
+  });
+});
