@@ -4,7 +4,7 @@ import { publicCard } from '@/lib/api/serializers';
 import { allocateSpecialInstance } from './special-stock';
 export async function openBooster(userId: string, idempotencyKey: string) {
   return db.$transaction(async (tx) => {
-    const existing = await tx.boosterOpening.findUnique({ where: { userId_idempotencyKey: { userId, idempotencyKey } }, include: { cards: { include: { card: true } } } });
+    const existing = await tx.boosterOpening.findUnique({ where: { userId_idempotencyKey: { userId, idempotencyKey } }, include: { cards: { include: { card: { include: { country: true } } } } } });
     if (existing?.status === 'completed') return { openingId: existing.id, cards: existing.cards.map((c) => publicCard(c.card, c.cardInstanceId)) };
     const opening = existing ?? await tx.boosterOpening.create({ data: { userId, idempotencyKey, status: 'pending', cardCount: bundleSize } });
     const cfg = await tx.rarityConfig.findFirst({ where: { active: true } }); if (!cfg) throw new Error('NO_RARITY_CONFIG');

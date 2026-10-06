@@ -1,8 +1,39 @@
 import { PrismaClient } from '@prisma/client';
+import { readFile } from 'node:fs/promises';
 import bcrypt from 'bcryptjs';
+import { fetchWikimediaImage } from '@/lib/media/wikimedia';
+import { rarityForPopulation } from '@/lib/cards/rarity';
 
 const db = new PrismaClient();
 const seedProbabilities = { common: 0.6, uncommon: 0.3, legendary: 0.1 };
+
+type RestCountry = {
+  name?: string;
+  code?: string;
+  population?: number;
+  continent?: string;
+  capital?: string | null;
+  flag?: string;
+};
+
+function normalizeCountry(country: RestCountry) {
+  const name = country.name;
+  const code = country.code;
+  const population = country.population;
+  const continent = country.continent;
+  const flag = country.flag;
+  if (!name || !code || typeof population !== 'number' || !Number.isInteger(population) || population <= 0 || !continent || !flag) {
+    throw new Error(`REST_COUNTRIES_INVALID_RECORD_${code ?? 'UNKNOWN'}`);
+  }
+  return {
+    code,
+    name,
+    population,
+    continent,
+    capital: country.capital?.[0] ?? null,
+    flag,
+  };
+}
 
 async function main() {
   const password = process.env.ADMIN_INITIAL_PASSWORD;
@@ -17,11 +48,8 @@ async function main() {
       status: 'validated',
     },
   });
-  const countries = [
-    ['FI', 'Finland', 5600000, 'Europe', 'Helsinki'],
-    ['IS', 'Iceland', 390000, 'Europe', 'Reykjavik'],
-    ['VA', 'Vatican City', 800, 'Europe', 'Vatican City'],
-  ] as const;
+  const countryData = JSON.parse(await readFile(new URL('./data/countries.json', import.meta.url), 'utf8')) as RestCountry[];
+  const countries = countryData.map(normalizeCountry);
   const cfg = await db.rarityConfig.upsert({
     where: { version: 'v1' },
     update: { active: true, probabilities: seedProbabilities },
@@ -36,7 +64,7 @@ async function main() {
     },
   });
 
-  for (const [code, name, population, continent, capital] of countries) {
+  for (const { code, name, population, continent, capital, flag } of countries) {
     const country = await db.country.create({
       data: {
         externalCode: code,
@@ -44,31 +72,32 @@ async function main() {
         population,
         continent,
         currentCapital: capital,
-        currentFlag: `https://flagcdn.com/${code.toLowerCase()}.svg`,
+        currentFlag: flag,
         sourceSnapshotId: snapshot.id,
       },
     });
-    for (const [cardType, cardName] of [
-      ['country', name],
-      ['capital', capital],
-      ['flag', `${name} flag`],
-    ] as const) {
+    const [countryImage, capitalImage] = await Promise.all([
+      fetchWikimediaImage(name, 'country'),
+      capital ? fetchWikimediaImage(capital, 'capital') : Promise.resolve(null),
+    ]);
+    const cards: Array<['country' | 'capital' | 'flag', string, typeof countryImage]> = [
+      ['country', name, countryImage],
+      ['flag', `${name} flag`, null],
+    ];
+    if (capital) cards.splice(1, 0, ['capital', capital, capitalImage]);
+    for (const [cardType, cardName, image] of cards) {
       await db.card.create({
         data: {
           cardType,
           countryId: country.id,
           name: cardName,
-          rarity:
-            population > 10000000
-              ? 'legendary'
-              : population > 1000000
-                ? 'epic'
-                : population > 100000
-                  ? 'rare'
-                  : population > 10000
-                    ? 'uncommon'
-                    : 'common',
+          rarity: rarityForPopulation(population, {
+            ...cfg,
+            probabilities: cfg.probabilities as Record<string, number>,
+          }),
           rarityConfigVersion: cfg.version,
+          imageUrl: image?.imageUrl,
+          imageCredit: image?.imageCredit,
         },
       });
     }

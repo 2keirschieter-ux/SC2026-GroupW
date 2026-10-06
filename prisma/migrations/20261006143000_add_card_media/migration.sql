@@ -1,0 +1,2 @@
+ALTER TABLE "Card" ADD COLUMN "imageUrl" TEXT;
+ALTER TABLE "Card" ADD COLUMN "imageCredit" TEXT;

@@ -97,6 +97,8 @@ model Card {
   rarity              Rarity
   rarityConfigVersion String
   description         String          @default("")
+  imageUrl            String?
+  imageCredit         String?
   historicalKind      HistoricalKind?
   stockTotal          Int?
   stockRemaining      Int?
