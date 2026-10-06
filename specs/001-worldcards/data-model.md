@@ -111,14 +111,14 @@ creating a second reward bundle.
 | Field | Type | Rules |
 |-------|------|-------|
 | version | string | Primary key |
-| common_max_population | integer | Ordered threshold |
-| uncommon_max_population | integer | Greater than common threshold |
-| rare_max_population | integer | Greater than uncommon threshold |
-| epic_max_population | integer | Greater than rare threshold |
+| common_max_population | integer | Upper bound for Common; greater than the other thresholds |
+| uncommon_max_population | integer | Upper bound for Uncommon; greater than rare and epic thresholds |
+| rare_max_population | integer | Upper bound for Rare; greater than the Epic threshold |
+| epic_max_population | integer | Upper bound for Epic; lowest population threshold |
 | probabilities | JSON/object | Non-negative values totaling 1 |
 | active | boolean | At most one active configuration |
 
-Lower population maps to rarer rarity. Special cards are selected only from
+Higher population maps to rarer rarity. Special cards are selected only from
 available special stock and do not use the base rarity thresholds.
 
 ## Relationships and transitions

@@ -59,11 +59,15 @@ async function main() {
           countryId: country.id,
           name: cardName,
           rarity:
-            population <= 10000
+            population > 10000000
               ? 'legendary'
-              : population <= 1000000
-                ? 'uncommon'
-                : 'common',
+              : population > 1000000
+                ? 'epic'
+                : population > 100000
+                  ? 'rare'
+                  : population > 10000
+                    ? 'uncommon'
+                    : 'common',
           rarityConfigVersion: cfg.version,
         },
       });
