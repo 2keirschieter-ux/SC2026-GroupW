@@ -1,4 +1,84 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
-const db=new PrismaClient();
-async function main(){const password=process.env.ADMIN_INITIAL_PASSWORD;if(!password)throw new Error('ADMIN_INITIAL_PASSWORD is required for seeding');const snapshot=await db.dataSnapshot.create({data:{sourceName:'REST Countries',retrievedAt:new Date(),sourceVersion:'seed-v1',licenseReference:'REST Countries terms',status:'validated'}});const countries=[['FI','Finland',5600000,'Europe','Helsinki'],['IS','Iceland',390000,'Europe','Reykjavik'],['VA','Vatican City',800,'Europe','Vatican City']];const cfg=await db.rarityConfig.upsert({where:{version:'v1'},update:{active:true},create:{version:'v1',commonMaxPopulation:10000000,uncommonMaxPopulation:1000000,rareMaxPopulation:100000,epicMaxPopulation:10000,probabilities:{common:.5,uncommon:.25,rare:.15,epic:.07,legendary:.03},active:true}});for(const [code,name,pop,continent,capital] of countries){const country=await db.country.create({data:{externalCode:code as string,name:name as string,population:pop as number,continent:continent as string,currentCapital:capital as string,currentFlag:`https://flagcdn.com/${(code as string).toLowerCase()}.svg`,sourceSnapshotId:snapshot.id}});for(const [type,label] of [['country',name],['capital',capital],['flag',`${name} flag`]] as const)await db.card.create({data:{cardType:type as any,countryId:country.id,name:label as string,rarity:pop as number<=10000?'legendary':pop as number<=100000?'rare':pop as number<=1000000?'uncommon':'common',rarityConfigVersion:cfg.version}});}await db.user.upsert({where:{email:'admin@example.com'},update:{},create:{email:'admin@example.com',passwordHash:await bcrypt.hash(password,12),role:'admin'}})}main().finally(()=>db.$disconnect());
+
+const db = new PrismaClient();
+const seedProbabilities = { common: 0.6, uncommon: 0.3, legendary: 0.1 };
+
+async function main() {
+  const password = process.env.ADMIN_INITIAL_PASSWORD;
+  if (!password) throw new Error('ADMIN_INITIAL_PASSWORD is required for seeding');
+
+  const snapshot = await db.dataSnapshot.create({
+    data: {
+      sourceName: 'REST Countries',
+      retrievedAt: new Date(),
+      sourceVersion: 'seed-v1',
+      licenseReference: 'REST Countries terms',
+      status: 'validated',
+    },
+  });
+  const countries = [
+    ['FI', 'Finland', 5600000, 'Europe', 'Helsinki'],
+    ['IS', 'Iceland', 390000, 'Europe', 'Reykjavik'],
+    ['VA', 'Vatican City', 800, 'Europe', 'Vatican City'],
+  ] as const;
+  const cfg = await db.rarityConfig.upsert({
+    where: { version: 'v1' },
+    update: { active: true, probabilities: seedProbabilities },
+    create: {
+      version: 'v1',
+      commonMaxPopulation: 10000000,
+      uncommonMaxPopulation: 1000000,
+      rareMaxPopulation: 100000,
+      epicMaxPopulation: 10000,
+      probabilities: seedProbabilities,
+      active: true,
+    },
+  });
+
+  for (const [code, name, population, continent, capital] of countries) {
+    const country = await db.country.create({
+      data: {
+        externalCode: code,
+        name,
+        population,
+        continent,
+        currentCapital: capital,
+        currentFlag: `https://flagcdn.com/${code.toLowerCase()}.svg`,
+        sourceSnapshotId: snapshot.id,
+      },
+    });
+    for (const [cardType, cardName] of [
+      ['country', name],
+      ['capital', capital],
+      ['flag', `${name} flag`],
+    ] as const) {
+      await db.card.create({
+        data: {
+          cardType,
+          countryId: country.id,
+          name: cardName,
+          rarity:
+            population <= 10000
+              ? 'legendary'
+              : population <= 1000000
+                ? 'uncommon'
+                : 'common',
+          rarityConfigVersion: cfg.version,
+        },
+      });
+    }
+  }
+
+  await db.user.upsert({
+    where: { email: 'admin@example.com' },
+    update: {},
+    create: {
+      email: 'admin@example.com',
+      passwordHash: await bcrypt.hash(password, 12),
+      role: 'admin',
+    },
+  });
+}
+
+main().finally(() => db.$disconnect());
