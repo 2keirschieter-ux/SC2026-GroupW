@@ -1,5 +1,6 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { UN_COUNTRY_CODES, UN_COUNTRY_COUNT } from './data/un-countries';
 
 const API_URL = 'https://api.restcountries.com/countries/v5';
 const API_KEY = process.env.REST_COUNTRIES_API_KEY;
@@ -72,11 +73,13 @@ async function main() {
     if (!page.length) break;
     const flattened = page.map(flatten);
     skipped += flattened.filter((country) => country === null).length;
-    countries.push(...flattened.filter((country): country is ExportCountry => country !== null));
+    countries.push(...flattened.filter((country): country is ExportCountry => country !== null && UN_COUNTRY_CODES.has(country.code)));
     if (page.length < PAGE_SIZE) break;
   }
 
-  if (!countries.length) throw new Error('REST_COUNTRIES_EXPORT_EMPTY');
+  if (countries.length !== UN_COUNTRY_COUNT) {
+    throw new Error(`REST_COUNTRIES_EXPORT_EXPECTED_${UN_COUNTRY_COUNT}_COUNTRIES_GOT_${countries.length}`);
+  }
   countries.sort((left, right) => left.name.localeCompare(right.name));
   await mkdir(path.dirname(OUTPUT_PATH), { recursive: true });
   await writeFile(OUTPUT_PATH, `${JSON.stringify(countries, null, 2)}\n`, 'utf8');

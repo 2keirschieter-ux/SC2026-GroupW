@@ -8,14 +8,6 @@
     "flag": "https://flags.restcountries.com/v5/svg/af.svg"
   },
   {
-    "name": "Åland Islands",
-    "code": "AX",
-    "population": 30654,
-    "continent": "Europe",
-    "capital": "Mariehamn",
-    "flag": "https://flags.restcountries.com/v5/svg/ax.svg"
-  },
-  {
     "name": "Albania",
     "code": "AL",
     "population": 2335930,
@@ -32,14 +24,6 @@
     "flag": "https://flags.restcountries.com/v5/svg/dz.svg"
   },
   {
-    "name": "American Samoa",
-    "code": "AS",
-    "population": 43268,
-    "continent": "Oceania",
-    "capital": "Pago Pago",
-    "flag": "https://flags.restcountries.com/v5/svg/as.svg"
-  },
-  {
     "name": "Andorra",
     "code": "AD",
     "population": 90105,
@@ -54,22 +38,6 @@
     "continent": "Africa",
     "capital": "Luanda",
     "flag": "https://flags.restcountries.com/v5/svg/ao.svg"
-  },
-  {
-    "name": "Anguilla",
-    "code": "AI",
-    "population": 16010,
-    "continent": "North America",
-    "capital": "The Valley",
-    "flag": "https://flags.restcountries.com/v5/svg/ai.svg"
-  },
-  {
-    "name": "Antarctica",
-    "code": "AQ",
-    "population": 1300,
-    "continent": "Antarctica",
-    "capital": null,
-    "flag": "https://flags.restcountries.com/v5/svg/aq.svg"
   },
   {
     "name": "Antigua and Barbuda",
@@ -94,14 +62,6 @@
     "continent": "Asia",
     "capital": "Yerevan",
     "flag": "https://flags.restcountries.com/v5/svg/am.svg"
-  },
-  {
-    "name": "Aruba",
-    "code": "AW",
-    "population": 110625,
-    "continent": "North America",
-    "capital": "Oranjestad",
-    "flag": "https://flags.restcountries.com/v5/svg/aw.svg"
   },
   {
     "name": "Australia",
@@ -192,14 +152,6 @@
     "flag": "https://flags.restcountries.com/v5/svg/bj.svg"
   },
   {
-    "name": "Bermuda",
-    "code": "BM",
-    "population": 64055,
-    "continent": "North America",
-    "capital": "Hamilton",
-    "flag": "https://flags.restcountries.com/v5/svg/bm.svg"
-  },
-  {
     "name": "Bhutan",
     "code": "BT",
     "population": 790718,
@@ -238,22 +190,6 @@
     "continent": "South America",
     "capital": "Brasília",
     "flag": "https://flags.restcountries.com/v5/svg/br.svg"
-  },
-  {
-    "name": "British Indian Ocean Territory",
-    "code": "IO",
-    "population": 2000,
-    "continent": "Asia",
-    "capital": "Diego Garcia",
-    "flag": "https://flags.restcountries.com/v5/svg/io.svg"
-  },
-  {
-    "name": "British Virgin Islands",
-    "code": "VG",
-    "population": 38984,
-    "continent": "North America",
-    "capital": "Road Town",
-    "flag": "https://flags.restcountries.com/v5/svg/vg.svg"
   },
   {
     "name": "Brunei",
@@ -320,22 +256,6 @@
     "flag": "https://flags.restcountries.com/v5/svg/ca.svg"
   },
   {
-    "name": "Caribbean Netherlands",
-    "code": "BQ",
-    "population": 31980,
-    "continent": "North America",
-    "capital": "Kralendijk",
-    "flag": "https://flags.restcountries.com/v5/svg/bq.svg"
-  },
-  {
-    "name": "Cayman Islands",
-    "code": "KY",
-    "population": 90577,
-    "continent": "North America",
-    "capital": "George Town",
-    "flag": "https://flags.restcountries.com/v5/svg/ky.svg"
-  },
-  {
     "name": "Central African Republic",
     "code": "CF",
     "population": 5513282,
@@ -368,22 +288,6 @@
     "flag": "https://flags.restcountries.com/v5/svg/cn.svg"
   },
   {
-    "name": "Christmas Island",
-    "code": "CX",
-    "population": 1692,
-    "continent": "Asia",
-    "capital": "Flying Fish Cove",
-    "flag": "https://flags.restcountries.com/v5/svg/cx.svg"
-  },
-  {
-    "name": "Cocos (Keeling) Islands",
-    "code": "CC",
-    "population": 593,
-    "continent": "Asia",
-    "capital": "West Island",
-    "flag": "https://flags.restcountries.com/v5/svg/cc.svg"
-  },
-  {
     "name": "Colombia",
     "code": "CO",
     "population": 53399171,
@@ -408,14 +312,6 @@
     "flag": "https://flags.restcountries.com/v5/svg/cg.svg"
   },
   {
-    "name": "Cook Islands",
-    "code": "CK",
-    "population": 15040,
-    "continent": "Oceania",
-    "capital": "Avarua",
-    "flag": "https://flags.restcountries.com/v5/svg/ck.svg"
-  },
-  {
     "name": "Costa Rica",
     "code": "CR",
     "population": 5160700,
@@ -438,14 +334,6 @@
     "continent": "North America",
     "capital": "Havana",
     "flag": "https://flags.restcountries.com/v5/svg/cu.svg"
-  },
-  {
-    "name": "Curaçao",
-    "code": "CW",
-    "population": 155826,
-    "continent": "North America",
-    "capital": "Willemstad",
-    "flag": "https://flags.restcountries.com/v5/svg/cw.svg"
   },
   {
     "name": "Cyprus",
@@ -568,22 +456,6 @@
     "flag": "https://flags.restcountries.com/v5/svg/et.svg"
   },
   {
-    "name": "Falkland Islands",
-    "code": "FK",
-    "population": 3662,
-    "continent": "South America",
-    "capital": "Stanley",
-    "flag": "https://flags.restcountries.com/v5/svg/fk.svg"
-  },
-  {
-    "name": "Faroe Islands",
-    "code": "FO",
-    "population": 56210,
-    "continent": "Europe",
-    "capital": "Tórshavn",
-    "flag": "https://flags.restcountries.com/v5/svg/fo.svg"
-  },
-  {
     "name": "Fiji",
     "code": "FJ",
     "population": 902623,
@@ -606,30 +478,6 @@
     "continent": "Europe",
     "capital": "Paris",
     "flag": "https://flags.restcountries.com/v5/svg/fr.svg"
-  },
-  {
-    "name": "French Guiana",
-    "code": "GF",
-    "population": 254541,
-    "continent": "South America",
-    "capital": "Cayenne",
-    "flag": "https://flags.restcountries.com/v5/svg/gf.svg"
-  },
-  {
-    "name": "French Polynesia",
-    "code": "PF",
-    "population": 278786,
-    "continent": "Oceania",
-    "capital": "Papeetē",
-    "flag": "https://flags.restcountries.com/v5/svg/pf.svg"
-  },
-  {
-    "name": "French Southern and Antarctic Lands",
-    "code": "TF",
-    "population": 400,
-    "continent": "Antarctica",
-    "capital": "Port-aux-Français",
-    "flag": "https://flags.restcountries.com/v5/svg/tf.svg"
   },
   {
     "name": "Gabon",
@@ -672,28 +520,12 @@
     "flag": "https://flags.restcountries.com/v5/svg/gh.svg"
   },
   {
-    "name": "Gibraltar",
-    "code": "GI",
-    "population": 38196,
-    "continent": "Europe",
-    "capital": "Gibraltar",
-    "flag": "https://flags.restcountries.com/v5/svg/gi.svg"
-  },
-  {
     "name": "Greece",
     "code": "GR",
     "population": 10372335,
     "continent": "Europe",
     "capital": "Athens",
     "flag": "https://flags.restcountries.com/v5/svg/gr.svg"
-  },
-  {
-    "name": "Greenland",
-    "code": "GL",
-    "population": 56945,
-    "continent": "North America",
-    "capital": "Nuuk",
-    "flag": "https://flags.restcountries.com/v5/svg/gl.svg"
   },
   {
     "name": "Grenada",
@@ -704,36 +536,12 @@
     "flag": "https://flags.restcountries.com/v5/svg/gd.svg"
   },
   {
-    "name": "Guadeloupe",
-    "code": "GP",
-    "population": 400132,
-    "continent": "North America",
-    "capital": "Basse-Terre",
-    "flag": "https://flags.restcountries.com/v5/svg/gp.svg"
-  },
-  {
-    "name": "Guam",
-    "code": "GU",
-    "population": 153836,
-    "continent": "Oceania",
-    "capital": "Hagåtña",
-    "flag": "https://flags.restcountries.com/v5/svg/gu.svg"
-  },
-  {
     "name": "Guatemala",
     "code": "GT",
     "population": 18406359,
     "continent": "North America",
     "capital": "Guatemala City",
     "flag": "https://flags.restcountries.com/v5/svg/gt.svg"
-  },
-  {
-    "name": "Guernsey",
-    "code": "GG",
-    "population": 64781,
-    "continent": "Europe",
-    "capital": "St. Peter Port",
-    "flag": "https://flags.restcountries.com/v5/svg/gg.svg"
   },
   {
     "name": "Guinea",
@@ -774,14 +582,6 @@
     "continent": "North America",
     "capital": "Tegucigalpa",
     "flag": "https://flags.restcountries.com/v5/svg/hn.svg"
-  },
-  {
-    "name": "Hong Kong",
-    "code": "HK",
-    "population": 7498100,
-    "continent": "Asia",
-    "capital": "City of Victoria",
-    "flag": "https://flags.restcountries.com/v5/svg/hk.svg"
   },
   {
     "name": "Hungary",
@@ -840,14 +640,6 @@
     "flag": "https://flags.restcountries.com/v5/svg/ie.svg"
   },
   {
-    "name": "Isle of Man",
-    "code": "IM",
-    "population": 84523,
-    "continent": "Europe",
-    "capital": "Douglas",
-    "flag": "https://flags.restcountries.com/v5/svg/im.svg"
-  },
-  {
     "name": "Israel",
     "code": "IL",
     "population": 10305000,
@@ -888,14 +680,6 @@
     "flag": "https://flags.restcountries.com/v5/svg/jp.svg"
   },
   {
-    "name": "Jersey",
-    "code": "JE",
-    "population": 104540,
-    "continent": "Europe",
-    "capital": "Saint Helier",
-    "flag": "https://flags.restcountries.com/v5/svg/je.svg"
-  },
-  {
     "name": "Jordan",
     "code": "JO",
     "population": 11937000,
@@ -926,14 +710,6 @@
     "continent": "Oceania",
     "capital": "South Tarawa",
     "flag": "https://flags.restcountries.com/v5/svg/ki.svg"
-  },
-  {
-    "name": "Kosovo",
-    "code": "XK",
-    "population": 1582322,
-    "continent": "Europe",
-    "capital": "Pristina",
-    "flag": "https://flags.restcountries.com/v5/svg/xk.svg"
   },
   {
     "name": "Kuwait",
@@ -1024,14 +800,6 @@
     "flag": "https://flags.restcountries.com/v5/svg/lu.svg"
   },
   {
-    "name": "Macau",
-    "code": "MO",
-    "population": 686500,
-    "continent": "Asia",
-    "capital": null,
-    "flag": "https://flags.restcountries.com/v5/svg/mo.svg"
-  },
-  {
     "name": "Madagascar",
     "code": "MG",
     "population": 32658977,
@@ -1088,14 +856,6 @@
     "flag": "https://flags.restcountries.com/v5/svg/mh.svg"
   },
   {
-    "name": "Martinique",
-    "code": "MQ",
-    "population": 378243,
-    "continent": "North America",
-    "capital": "Fort-de-France",
-    "flag": "https://flags.restcountries.com/v5/svg/mq.svg"
-  },
-  {
     "name": "Mauritania",
     "code": "MR",
     "population": 4927532,
@@ -1110,14 +870,6 @@
     "continent": "Africa",
     "capital": "Port Louis",
     "flag": "https://flags.restcountries.com/v5/svg/mu.svg"
-  },
-  {
-    "name": "Mayotte",
-    "code": "YT",
-    "population": 226915,
-    "continent": "Africa",
-    "capital": "Mamoudzou",
-    "flag": "https://flags.restcountries.com/v5/svg/yt.svg"
   },
   {
     "name": "Mexico",
@@ -1166,14 +918,6 @@
     "continent": "Europe",
     "capital": "Podgorica",
     "flag": "https://flags.restcountries.com/v5/svg/me.svg"
-  },
-  {
-    "name": "Montserrat",
-    "code": "MS",
-    "population": 4386,
-    "continent": "North America",
-    "capital": "Plymouth",
-    "flag": "https://flags.restcountries.com/v5/svg/ms.svg"
   },
   {
     "name": "Morocco",
@@ -1232,14 +976,6 @@
     "flag": "https://flags.restcountries.com/v5/svg/nl.svg"
   },
   {
-    "name": "New Caledonia",
-    "code": "NC",
-    "population": 264596,
-    "continent": "Oceania",
-    "capital": "Nouméa",
-    "flag": "https://flags.restcountries.com/v5/svg/nc.svg"
-  },
-  {
     "name": "New Zealand",
     "code": "NZ",
     "population": 4993923,
@@ -1272,22 +1008,6 @@
     "flag": "https://flags.restcountries.com/v5/svg/ng.svg"
   },
   {
-    "name": "Niue",
-    "code": "NU",
-    "population": 1681,
-    "continent": "Oceania",
-    "capital": "Alofi",
-    "flag": "https://flags.restcountries.com/v5/svg/nu.svg"
-  },
-  {
-    "name": "Norfolk Island",
-    "code": "NF",
-    "population": 2188,
-    "continent": "Oceania",
-    "capital": "Kingston",
-    "flag": "https://flags.restcountries.com/v5/svg/nf.svg"
-  },
-  {
     "name": "North Korea",
     "code": "KP",
     "population": 25950000,
@@ -1302,14 +1022,6 @@
     "continent": "Europe",
     "capital": "Skopje",
     "flag": "https://flags.restcountries.com/v5/svg/mk.svg"
-  },
-  {
-    "name": "Northern Mariana Islands",
-    "code": "MP",
-    "population": 46078,
-    "continent": "Oceania",
-    "capital": "Saipan",
-    "flag": "https://flags.restcountries.com/v5/svg/mp.svg"
   },
   {
     "name": "Norway",
@@ -1392,14 +1104,6 @@
     "flag": "https://flags.restcountries.com/v5/svg/ph.svg"
   },
   {
-    "name": "Pitcairn Islands",
-    "code": "PN",
-    "population": 35,
-    "continent": "Oceania",
-    "capital": "Adamstown",
-    "flag": "https://flags.restcountries.com/v5/svg/pn.svg"
-  },
-  {
     "name": "Poland",
     "code": "PL",
     "population": 37232000,
@@ -1416,28 +1120,12 @@
     "flag": "https://flags.restcountries.com/v5/svg/pt.svg"
   },
   {
-    "name": "Puerto Rico",
-    "code": "PR",
-    "population": 3184195,
-    "continent": "North America",
-    "capital": "San Juan",
-    "flag": "https://flags.restcountries.com/v5/svg/pr.svg"
-  },
-  {
     "name": "Qatar",
     "code": "QA",
     "population": 3370611,
     "continent": "Asia",
     "capital": "Doha",
     "flag": "https://flags.restcountries.com/v5/svg/qa.svg"
-  },
-  {
-    "name": "Réunion",
-    "code": "RE",
-    "population": 840974,
-    "continent": "Africa",
-    "capital": "Saint-Denis",
-    "flag": "https://flags.restcountries.com/v5/svg/re.svg"
   },
   {
     "name": "Romania",
@@ -1464,22 +1152,6 @@
     "flag": "https://flags.restcountries.com/v5/svg/rw.svg"
   },
   {
-    "name": "Saint Barthélemy",
-    "code": "BL",
-    "population": 4255,
-    "continent": "North America",
-    "capital": "Gustavia",
-    "flag": "https://flags.restcountries.com/v5/svg/bl.svg"
-  },
-  {
-    "name": "Saint Helena, Ascension and Tristan da Cunha",
-    "code": "SH",
-    "population": 53192,
-    "continent": "Africa",
-    "capital": "Jamestown",
-    "flag": "https://flags.restcountries.com/v5/svg/sh.svg"
-  },
-  {
     "name": "Saint Kitts and Nevis",
     "code": "KN",
     "population": 54338,
@@ -1494,22 +1166,6 @@
     "continent": "North America",
     "capital": "Castries",
     "flag": "https://flags.restcountries.com/v5/svg/lc.svg"
-  },
-  {
-    "name": "Saint Martin",
-    "code": "MF",
-    "population": 38659,
-    "continent": "North America",
-    "capital": "Marigot",
-    "flag": "https://flags.restcountries.com/v5/svg/mf.svg"
-  },
-  {
-    "name": "Saint Pierre and Miquelon",
-    "code": "PM",
-    "population": 5819,
-    "continent": "North America",
-    "capital": "Saint-Pierre",
-    "flag": "https://flags.restcountries.com/v5/svg/pm.svg"
   },
   {
     "name": "Saint Vincent and the Grenadines",
@@ -1592,14 +1248,6 @@
     "flag": "https://flags.restcountries.com/v5/svg/sg.svg"
   },
   {
-    "name": "Sint Maarten",
-    "code": "SX",
-    "population": 58477,
-    "continent": "North America",
-    "capital": "Philipsburg",
-    "flag": "https://flags.restcountries.com/v5/svg/sx.svg"
-  },
-  {
     "name": "Slovakia",
     "code": "SK",
     "population": 5403009,
@@ -1638,14 +1286,6 @@
     "continent": "Africa",
     "capital": "Pretoria",
     "flag": "https://flags.restcountries.com/v5/svg/za.svg"
-  },
-  {
-    "name": "South Georgia",
-    "code": "GS",
-    "population": 32,
-    "continent": "Antarctica",
-    "capital": "King Edward Point",
-    "flag": "https://flags.restcountries.com/v5/svg/gs.svg"
   },
   {
     "name": "South Korea",
@@ -1696,14 +1336,6 @@
     "flag": "https://flags.restcountries.com/v5/svg/sr.svg"
   },
   {
-    "name": "Svalbard and Jan Mayen",
-    "code": "SJ",
-    "population": 2562,
-    "continent": "Europe",
-    "capital": "Longyearbyen",
-    "flag": "https://flags.restcountries.com/v5/svg/sj.svg"
-  },
-  {
     "name": "Sweden",
     "code": "SE",
     "population": 10613531,
@@ -1726,14 +1358,6 @@
     "continent": "Asia",
     "capital": "Damascus",
     "flag": "https://flags.restcountries.com/v5/svg/sy.svg"
-  },
-  {
-    "name": "Taiwan",
-    "code": "TW",
-    "population": 23224721,
-    "continent": "Asia",
-    "capital": "Taipei",
-    "flag": "https://flags.restcountries.com/v5/svg/tw.svg"
   },
   {
     "name": "Tajikistan",
@@ -1776,14 +1400,6 @@
     "flag": "https://flags.restcountries.com/v5/svg/tg.svg"
   },
   {
-    "name": "Tokelau",
-    "code": "TK",
-    "population": 1411,
-    "continent": "Oceania",
-    "capital": "Fakaofo",
-    "flag": "https://flags.restcountries.com/v5/svg/tk.svg"
-  },
-  {
     "name": "Tonga",
     "code": "TO",
     "population": 100179,
@@ -1822,14 +1438,6 @@
     "continent": "Asia",
     "capital": "Ashgabat",
     "flag": "https://flags.restcountries.com/v5/svg/tm.svg"
-  },
-  {
-    "name": "Turks and Caicos Islands",
-    "code": "TC",
-    "population": 50828,
-    "continent": "North America",
-    "capital": "Cockburn Town",
-    "flag": "https://flags.restcountries.com/v5/svg/tc.svg"
   },
   {
     "name": "Tuvalu",
@@ -1880,22 +1488,6 @@
     "flag": "https://flags.restcountries.com/v5/svg/us.svg"
   },
   {
-    "name": "United States Minor Outlying Islands",
-    "code": "UM",
-    "population": 300,
-    "continent": "Oceania",
-    "capital": null,
-    "flag": "https://flags.restcountries.com/v5/svg/um.svg"
-  },
-  {
-    "name": "United States Virgin Islands",
-    "code": "VI",
-    "population": 87146,
-    "continent": "North America",
-    "capital": "Charlotte Amalie",
-    "flag": "https://flags.restcountries.com/v5/svg/vi.svg"
-  },
-  {
     "name": "Uruguay",
     "code": "UY",
     "population": 3480601,
@@ -1942,22 +1534,6 @@
     "continent": "Asia",
     "capital": "Hanoi",
     "flag": "https://flags.restcountries.com/v5/svg/vn.svg"
-  },
-  {
-    "name": "Wallis and Futuna",
-    "code": "WF",
-    "population": 11151,
-    "continent": "Oceania",
-    "capital": "Mata-Utu",
-    "flag": "https://flags.restcountries.com/v5/svg/wf.svg"
-  },
-  {
-    "name": "Western Sahara",
-    "code": "EH",
-    "population": 510713,
-    "continent": "Africa",
-    "capital": "El Aaiún",
-    "flag": "https://flags.restcountries.com/v5/svg/eh.svg"
   },
   {
     "name": "Yemen",

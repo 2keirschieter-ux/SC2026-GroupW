@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import bcrypt from 'bcryptjs';
 import { fetchWikimediaImage } from '@/lib/media/wikimedia';
 import { rarityForPopulation } from '@/lib/cards/rarity';
+import { UN_COUNTRY_CODES, UN_COUNTRY_COUNT } from './data/un-countries';
 
 const db = new PrismaClient();
 const seedProbabilities = { common: 0.6, uncommon: 0.3, legendary: 0.1 };
@@ -12,7 +13,7 @@ type RestCountry = {
   code?: string;
   population?: number;
   continent?: string;
-  capital?: string | null;
+  capital?: string | string[] | null;
   flag?: string;
 };
 
@@ -30,7 +31,7 @@ function normalizeCountry(country: RestCountry) {
     name,
     population,
     continent,
-    capital: country.capital?.[0] ?? null,
+    capital: Array.isArray(country.capital) ? country.capital[0] ?? null : country.capital ?? null,
     flag,
   };
 }
@@ -38,6 +39,16 @@ function normalizeCountry(country: RestCountry) {
 async function main() {
   const password = process.env.ADMIN_INITIAL_PASSWORD;
   if (!password) throw new Error('ADMIN_INITIAL_PASSWORD is required for seeding');
+
+  const countryData = JSON.parse(await readFile(new URL('./data/countries.json', import.meta.url), 'utf8')) as RestCountry[];
+  const countries = countryData.map(normalizeCountry);
+  if (
+    countries.length !== UN_COUNTRY_COUNT ||
+    new Set(countries.map(({ code }) => code)).size !== UN_COUNTRY_COUNT ||
+    countries.some(({ code }) => !UN_COUNTRY_CODES.has(code))
+  ) {
+    throw new Error(`COUNTRY_SEED_MUST_CONTAIN_${UN_COUNTRY_COUNT}_UN_COUNTRIES`);
+  }
 
   const snapshot = await db.dataSnapshot.create({
     data: {
@@ -48,24 +59,22 @@ async function main() {
       status: 'validated',
     },
   });
-  const countryData = JSON.parse(await readFile(new URL('./data/countries.json', import.meta.url), 'utf8')) as RestCountry[];
-  const countries = countryData.map(normalizeCountry);
   const cfg = await db.rarityConfig.upsert({
     where: { version: 'v1' },
     update: {
-      commonMaxPopulation: 10_000,
-      uncommonMaxPopulation: 100_000,
-      rareMaxPopulation: 1_000_000,
-      epicMaxPopulation: 10_000_000,
+      commonMaxPopulation: 10_000_000,
+      uncommonMaxPopulation: 40_000_000,
+      rareMaxPopulation: 75_000_000,
+      epicMaxPopulation: 225_000_000,
       active: true,
       probabilities: seedProbabilities,
     },
     create: {
       version: 'v1',
-      commonMaxPopulation: 10_000,
-      uncommonMaxPopulation: 100_000,
-      rareMaxPopulation: 1_000_000,
-      epicMaxPopulation: 10_000_000,
+      commonMaxPopulation: 10_000_000,
+      uncommonMaxPopulation: 40_000_000,
+      rareMaxPopulation: 75_000_000,
+      epicMaxPopulation: 225_000_000,
       probabilities: seedProbabilities,
       active: true,
     },
@@ -83,9 +92,18 @@ async function main() {
         sourceSnapshotId: snapshot.id,
       },
     });
-    const capitalImage = capital ? await fetchWikimediaImage(capital, 'capital') : null;
-    const cards: Array<['country' | 'capital' | 'flag', string, typeof capitalImage]> = [
-      ['country', name, null],
+    const countryImage = await fetchWikimediaImage(name, 'country');
+    const capitalImage = capital
+      ? (await fetchWikimediaImage(capital, 'capital', name)) ?? countryImage
+      : null;
+    if (!countryImage) {
+      throw new Error(`COUNTRY_IMAGE_NOT_FOUND_${code}`);
+    }
+    if (capital && !capitalImage) {
+      throw new Error(`CAPITAL_IMAGE_NOT_FOUND_${code}`);
+    }
+    const cards: Array<['country' | 'capital' | 'flag', string, { imageUrl: string; imageCredit: string } | null]> = [
+      ['country', name, countryImage],
       ['flag', `${name} flag`, null],
     ];
     if (capital) cards.splice(1, 0, ['capital', capital, capitalImage]);
