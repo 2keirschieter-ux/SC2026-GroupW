@@ -454,6 +454,20 @@ select {
 .side-menu nav a:hover {
   background: #d7e0f3;
 }
+.sign-out {
+  margin-top: 1.5rem;
+}
+.sign-out button {
+  width: 100%;
+  background: #64748b;
+}
+.sign-out button:hover {
+  background: #475569;
+}
+.sign-out p {
+  color: #b42318;
+  font-size: 0.8rem;
+}
 .profile-form {
   display: grid;
   max-width: 420px;
@@ -465,6 +479,62 @@ select {
 .profile-form small {
   color: #667085;
   margin-bottom: 0.5rem;
+}
+.profile-summary {
+  max-width: 620px;
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  border: 1px solid #ccd5e5;
+  border-radius: 12px;
+  background: #fff;
+}
+.profile-summary h2 {
+  margin-top: 0;
+}
+.profile-summary dl {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+}
+.profile-summary dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid #edf0f5;
+  padding-bottom: 0.75rem;
+}
+.profile-summary dl div:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.profile-summary dt {
+  color: #667085;
+}
+.profile-summary dd {
+  margin: 0;
+  font-weight: 700;
+  text-align: right;
+}
+.profile-settings-link {
+  color: #3155d8;
+  font-weight: 600;
+}
+.image-review-card {
+  max-width: 720px;
+  padding: 1.25rem;
+  border: 1px solid #ccd5e5;
+  border-radius: 12px;
+  background: #fff;
+}
+.image-review-card img {
+  display: block;
+  width: 100%;
+  max-height: 460px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.image-review-card .booster-controls {
+  margin-top: 1rem;
 }
 @media (max-width: 700px) {
   .app-shell {

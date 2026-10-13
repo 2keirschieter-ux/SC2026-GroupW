@@ -21,6 +21,8 @@ type BoosterCard = {
 
 type BoosterPhase = 'idle' | 'opening' | 'revealing';
 
+const rarityOrder: BoosterCard['rarity'][] = ['common', 'uncommon', 'rare', 'epic', 'legendary', 'special'];
+
 function cardDescription(card: BoosterCard) {
   if (card.type === 'country') return `${card.countryName ?? card.name} · ${card.continent ?? 'Country'}`;
   if (card.type === 'capital') return `Capital of ${card.countryName ?? 'this country'}`;
@@ -59,7 +61,8 @@ export default function Booster() {
         setPhase('idle');
         return;
       }
-      setCards(data.cards);
+      const sortedCards = [...data.cards].sort((left: BoosterCard, right: BoosterCard) => rarityOrder.indexOf(left.rarity) - rarityOrder.indexOf(right.rarity));
+      setCards(sortedCards);
       setCurrentIndex(0);
       setPhase('opening');
     } catch {
@@ -100,7 +103,7 @@ export default function Booster() {
         <section className="booster-reveal" aria-live="polite">
           <p className="booster-progress">Card {currentIndex + 1} of {cards.length}</p>
           <article className={`card card--${card.rarity} booster-card`} key={`${card.cardId}-${currentIndex}`}>
-            <CardVisual type={card.type} rarity={card.rarity} countryCode={card.countryCode} continent={card.continent} flagUrl={card.flagUrl} imageUrl={card.imageUrl} imageCredit={card.imageCredit} countryName={card.countryName ?? card.name} />
+            <CardVisual type={card.type} rarity={card.rarity} countryCode={card.countryCode} continent={card.continent} flagUrl={card.flagUrl} imageUrl={card.imageUrl} countryName={card.countryName ?? card.name} />
             <div className="card-content">
               <h2>{card.name}</h2>
               <p>{cardDescription(card)}</p>

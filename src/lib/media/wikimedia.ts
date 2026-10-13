@@ -14,7 +14,7 @@ type SummaryResponse = {
 
 type CommonsPage = {
   title: string;
-  imageinfo?: Array<{ url?: string; mime?: string; extmetadata?: Record<string, { value?: string }> }>;
+  imageinfo?: Array<{ url?: string; mime?: string; width?: number; height?: number; extmetadata?: Record<string, { value?: string }> }>;
 };
 
 type CommonsResponse = { query?: { pages?: Record<string, CommonsPage> } };
@@ -80,7 +80,7 @@ async function fetchSummary(title: string): Promise<SummaryResponse | null> {
 
 function isUsableImage(summary: SummaryResponse, imageUrl: string, kind: 'country' | 'capital') {
   const searchableText = `${summary.title ?? ''} ${summary.description ?? ''} ${imageUrl}`.toLowerCase();
-  const excludedTerms = /\b(flag|coat[ _-]?of[ _-]?arms|map|locator|emblem|logo|symbol|outline|seal|insignia)\b/;
+  const excludedTerms = /\b(flag|coat[ _-]?of[ _-]?arms|map|locator|emblem|logo|symbol|outline|seal|insignia|portrait|people|person|crowd|festival|parade)\b/;
   const isSvg = /\.svg(?:[?#]|$)/i.test(imageUrl);
   const isLikelyPhoto = /\.(?:jpe?g|png|webp)(?:[?#]|$)/i.test(imageUrl);
   return summary.type !== 'disambiguation'
@@ -114,12 +114,13 @@ function commonsQueries(subject: string, kind: 'country' | 'capital', countryNam
 function isUsableCommonsPhoto(page: CommonsPage) {
   const info = page.imageinfo?.[0];
   const text = `${page.title} ${info?.extmetadata?.Categories?.value ?? ''}`.toLowerCase();
-  const excludedTerms = /\b(flag|coat[ _-]?of[ _-]?arms|map|locator|emblem|logo|symbol|outline|seal|insignia|diagram|chart)\b/;
-  return Boolean(info?.url && ['image/jpeg', 'image/png', 'image/webp'].includes(info.mime ?? ''))
+  const excludedTerms = /\b(flag|coat[ _-]?of[ _-]?arms|map|locator|emblem|logo|symbol|outline|seal|insignia|diagram|chart|portrait|people|person|crowd|festival|parade)\b/;
+  const isLandscape = (info?.width ?? 0) >= (info?.height ?? 0) * 1.2;
+  return Boolean(info?.url && ['image/jpeg', 'image/png', 'image/webp'].includes(info.mime ?? '') && isLandscape)
     && !excludedTerms.test(text);
 }
 
-async function searchCommons(subject: string, kind: 'country' | 'capital', countryName?: string): Promise<ImageCandidate | null> {
+async function searchCommons(subject: string, kind: 'country' | 'capital', countryName?: string, excludedUrls: Set<string> = new Set()): Promise<ImageCandidate | null> {
   for (const query of commonsQueries(subject, kind, countryName)) {
     const params = new URLSearchParams({
       action: 'query',
@@ -130,7 +131,7 @@ async function searchCommons(subject: string, kind: 'country' | 'capital', count
       gsrnamespace: '6',
       gsrlimit: '10',
       prop: 'imageinfo',
-      iiprop: 'url|mime|extmetadata',
+      iiprop: 'url|mime|size|extmetadata',
     });
     const url = `${COMMONS_API_URL}?${params}`;
     console.log(`[Wikimedia Commons] Photo query: "${query}"`);
@@ -157,7 +158,7 @@ async function searchCommons(subject: string, kind: 'country' | 'capital', count
     }
     const page = Object.values(data.query?.pages ?? {}).find(isUsableCommonsPhoto);
     const info = page?.imageinfo?.[0];
-    if (page && info && info.url) {
+    if (page && info && info.url && !excludedUrls.has(info.url)) {
       return {
         imageUrl: info.url,
         imageCredit: `https://commons.wikimedia.org/wiki/${encodeURIComponent(page.title.replace(/ /g, '_'))}`,
@@ -199,7 +200,7 @@ function isUsableOpenverseResult(result: OpenverseResult) {
     && (result.height ?? 0) >= 360;
 }
 
-async function searchOpenverse(subject: string, kind: 'country' | 'capital', countryName?: string): Promise<ImageCandidate | null> {
+async function searchOpenverse(subject: string, kind: 'country' | 'capital', countryName?: string, excludedUrls: Set<string> = new Set()): Promise<ImageCandidate | null> {
   for (const query of openverseQueries(subject, kind, countryName)) {
     const params = new URLSearchParams({ q: query, page_size: '20', mature: 'false' });
     const url = `${OPENVERSE_API_URL}?${params}`;
@@ -215,7 +216,7 @@ async function searchOpenverse(subject: string, kind: 'country' | 'capital', cou
       }
       const data = JSON.parse(await response.text()) as OpenverseResponse;
       const result = data.results?.find(isUsableOpenverseResult);
-      if (result?.url && result.foreign_landing_url) {
+      if (result?.url && result.foreign_landing_url && !excludedUrls.has(result.url)) {
         return {
           imageUrl: result.url,
           imageCredit: result.foreign_landing_url,
@@ -229,14 +230,15 @@ async function searchOpenverse(subject: string, kind: 'country' | 'capital', cou
   return null;
 }
 
-export async function fetchWikimediaImage(subject: string, kind: 'country' | 'capital', countryName?: string) {
+export async function fetchWikimediaImage(subject: string, kind: 'country' | 'capital', countryName?: string, excludedUrls: string[] = []) {
   try {
     const candidates: ImageCandidate[] = [];
+    const excluded = new Set(excludedUrls);
     for (const title of titleCandidates(subject, kind, countryName)) {
       const summary = await fetchSummary(title);
       const imageUrl = summary?.originalimage?.source ?? summary?.thumbnail?.source;
       const articleUrl = summary?.content_urls?.desktop?.page;
-      if (imageUrl && articleUrl && isUsableImage(summary, imageUrl, kind)) {
+      if (imageUrl && articleUrl && !excluded.has(imageUrl) && isUsableImage(summary, imageUrl, kind)) {
         candidates.push({
           imageUrl,
           imageCredit: articleUrl,
@@ -246,9 +248,9 @@ export async function fetchWikimediaImage(subject: string, kind: 'country' | 'ca
       }
       console.warn(`[Wikipedia] Rejected non-photo or missing city image for "${title}"`);
     }
-    const commonsImage = await searchCommons(subject, kind, countryName);
+    const commonsImage = await searchCommons(subject, kind, countryName, excluded);
     if (commonsImage) candidates.push(commonsImage);
-    const openverseImage = await searchOpenverse(subject, kind, countryName);
+    const openverseImage = await searchOpenverse(subject, kind, countryName, excluded);
     if (openverseImage) candidates.push(openverseImage);
     candidates.sort((left, right) => right.score - left.score);
     if (candidates[0]) {

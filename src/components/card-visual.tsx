@@ -7,7 +7,6 @@ type CardVisualProps = {
   continent?: string;
   flagUrl?: string;
   imageUrl?: string | null;
-  imageCredit?: string | null;
   countryName: string;
 };
 
@@ -19,7 +18,7 @@ function RarityBadge({ rarity }: { rarity: Rarity }) {
   return <span className={`rarity-badge rarity-badge--${rarity}`}>{rarity}</span>;
 }
 
-export function CardVisual({ type, rarity, continent, flagUrl, imageUrl, imageCredit, countryName }: CardVisualProps) {
+export function CardVisual({ type, rarity, continent, flagUrl, imageUrl, countryName }: CardVisualProps) {
   if (type === 'flag' && flagUrl) {
     return (
       <div className="card-visual card-visual--flag">
@@ -34,13 +33,6 @@ export function CardVisual({ type, rarity, continent, flagUrl, imageUrl, imageCr
       <div className="card-visual card-visual--photo">
         <RarityBadge rarity={rarity} />
         <img src={imageUrl} alt={`${countryName} ${type} view`} />
-        {imageCredit && (
-          <small>
-            {imageCredit.startsWith('http')
-              ? <a href={imageCredit}>{imageCredit.includes('commons.wikimedia.org') ? 'Image via Wikimedia Commons' : imageCredit.includes('openverse.org') ? 'Photo via Openverse' : 'Image via Wikipedia'}</a>
-              : imageCredit}
-          </small>
-        )}
       </div>
     );
   }

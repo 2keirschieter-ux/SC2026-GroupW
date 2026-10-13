@@ -1,52 +1,26 @@
-'use client';
+import Link from 'next/link';
+import { currentUser } from '@/lib/auth/session';
+import { db } from '@/lib/db/client';
 
-import { useEffect, useState } from 'react';
+export default async function Profile() {
+  const user = await currentUser();
+  if (!user) return <><h1>Profile</h1><p><Link href="/register">Create an account</Link> or <Link href="/sign-in">sign in</Link>.</p></>;
 
-export default function Profile() {
-  const [username, setUsername] = useState('');
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    fetch('/api/profile')
-      .then(async (response) => {
-        if (!response.ok) throw new Error('PROFILE_LOAD_FAILED');
-        const data = await response.json();
-        setUsername(data.user.username ?? '');
-      })
-      .catch(() => setError('Impossible de charger le profil.'));
-  }, []);
-
-  async function save(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setMessage('');
-    setError('');
-    const response = await fetch('/api/profile', {
-      method: 'PATCH',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ username }),
-    });
-    const data = await response.json();
-    if (!response.ok) {
-      setError(data.error?.code === 'USERNAME_TAKEN' ? 'Ce pseudo est déjà utilisé.' : data.error?.message ?? 'Impossible de sauvegarder le profil.');
-      return;
-    }
-    setUsername(data.user.username);
-    setMessage('Profil enregistré.');
-  }
+  const cardCount = await db.userCard.count({ where: { userId: user.id } });
+  const memberSince = new Intl.DateTimeFormat('en-US', { dateStyle: 'long' }).format(user.createdAt);
 
   return (
     <>
-      <h1>Profil</h1>
-      <p>Choisissez le pseudo affiché dans votre espace joueur.</p>
-      <form onSubmit={save} className="profile-form">
-        <label htmlFor="username">Pseudo</label>
-        <input id="username" value={username} onChange={(event) => setUsername(event.target.value)} minLength={3} maxLength={24} required />
-        <small>3 à 24 caractères : lettres, chiffres, espaces, tirets et underscores.</small>
-        <button>Enregistrer</button>
-      </form>
-      {message && <p role="status">{message}</p>}
-      {error && <p role="alert">{error}</p>}
+      <h1>Profile</h1>
+      <section className="profile-summary" aria-labelledby="profile-summary-title">
+        <h2 id="profile-summary-title">Profile information</h2>
+        <dl>
+          <div><dt>Username</dt><dd>{user.username ?? 'No username set'}</dd></div>
+          <div><dt>Member since</dt><dd>{memberSince}</dd></div>
+          <div><dt>Cards in collection</dt><dd>{cardCount}</dd></div>
+        </dl>
+      </section>
+      <Link className="profile-settings-link" href="/settings/profile">Edit profile information</Link>
     </>
   );
 }
