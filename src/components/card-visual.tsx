@@ -37,6 +37,15 @@ export function CardVisual({ type, rarity, continent, flagUrl, imageUrl, country
     );
   }
 
+  if (type === 'special' && imageUrl) {
+    return (
+      <div className="card-visual card-visual--photo card-visual--special">
+        <RarityBadge rarity={rarity} />
+        <img src={imageUrl} alt={`${countryName} special card`} />
+      </div>
+    );
+  }
+
   if (type === 'country' || type === 'capital') {
     return (
       <div className={`card-visual card-visual--placeholder ${continentClass(continent)}`} aria-label={`No ${type} image available`}>

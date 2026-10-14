@@ -6,7 +6,7 @@ import { rarityForPopulation } from '@/lib/cards/rarity';
 import { UN_COUNTRY_CODES, UN_COUNTRY_COUNT } from './data/un-countries';
 
 const db = new PrismaClient();
-const seedProbabilities = { common: 0.6, uncommon: 0.3, legendary: 0.1 };
+const seedProbabilities = { common: 0.5, uncommon: 0.25, rare: 0.12, epic: 0.075, legendary: 0.05, special: 0.005 };
 
 type RestCountry = {
   name?: string;

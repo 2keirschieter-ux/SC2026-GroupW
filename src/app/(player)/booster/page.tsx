@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { CardVisual } from '@/components/card-visual';
+import { WorldCardsLogo } from '@/components/worldcards-logo';
 
 type BoosterCard = {
   cardId: string;
@@ -82,6 +83,9 @@ export default function Booster() {
       {phase === 'idle' && (
         <button className="booster-pack-button" onClick={open} disabled={opening} aria-label="Open booster">
           <span className="booster-pack booster-pack--sealed" aria-hidden="true">
+            <span className="booster-pack__pattern">
+              {Array.from({ length: 12 }, (_, index) => <WorldCardsLogo className="booster-pattern-logo" key={index} />)}
+            </span>
             <span className="booster-pack__tear-line" />
             <span className="booster-pack__brand">WORLD<br />CARDS</span>
             <span className="booster-pack__hint">PRESS TO TEAR</span>
@@ -93,6 +97,9 @@ export default function Booster() {
       {phase === 'opening' && (
         <section className="booster-opening" aria-live="polite" aria-label="Opening booster">
           <div className="booster-pack booster-pack--tearing" aria-hidden="true">
+            <span className="booster-pack__pattern">
+              {Array.from({ length: 12 }, (_, index) => <WorldCardsLogo className="booster-pattern-logo" key={index} />)}
+            </span>
             <span className="booster-pack__tear-line" />
             <span className="booster-pack__brand">WORLD<br />CARDS</span>
           </div>
@@ -117,6 +124,7 @@ export default function Booster() {
             <>
               <p>All cards revealed.</p>
               <Link className="booster-return" href="/collection">Return to collection</Link>
+              <button className="booster-another" onClick={open} disabled={opening}>Open another booster</button>
             </>
           )}
         </section>
